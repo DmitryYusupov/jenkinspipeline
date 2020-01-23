@@ -1,7 +1,8 @@
 @Library('shared_libs') _
 import common.Test
-import common.configs.pipeline.stage.checkout.GitConfig
-import common.stage.CheckoutConfigStage
+import pipeline.stage.checkout.config.GitConfig
+import pipeline.stage.checkout.config.CheckoutConfigStage
+import pipeline.stage.checkout.CheckoutConfigStage
 
 def pipeline
 node {
