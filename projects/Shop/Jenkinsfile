@@ -7,10 +7,9 @@ node {
   def workSpacePath = env.WORKSPACE + "@libs/shared_libs/"
   println(workSpacePath)
 
-  def stagesPath = "/pipeline/stage/"
+  def stagesPath = "/vars/stage/"
+  def checkoutStageFileName ="CheckoutStage.groovy"
 
-
-  def checkoutStageFileName = "pipeline.stage.checkout.CheckoutStage.groovy"
   println("Load file with checkout stage '" + checkoutStageFileName + "'")
   pipeline = load(workSpacePath + stagesPath + checkoutStageFileName)
   println("File '"+ checkoutStageFileName +"' was successfully loaded")
