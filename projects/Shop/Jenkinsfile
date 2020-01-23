@@ -6,8 +6,7 @@ def pipeline
 node {
 
   def workSpacePath = env.WORKSPACE
-  println("Hello world")
-  /*def stagesPath = "/pipeline/stage/"
+  def stagesPath = "/pipeline/stage/"
 
   def checkoutStageFileName = "StageCheckout.groovy"
   println("Load file with checkout stage '" + checkoutStageFileName + "'")
@@ -23,5 +22,5 @@ node {
 
   pipeline.doCheckout(checkoutConfig)
   println("Checkout has SUCCESSFULLY finished!")
-*/
+
 }
