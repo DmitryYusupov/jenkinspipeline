@@ -7,7 +7,10 @@ def pipeline
 node {
 
   def workSpacePath = env.WORKSPACE
+  println(workSpacePath)
+
   def stagesPath = "/pipeline/stage/"
+
 
   def checkoutStageFileName = "pipeline.stage.checkout.CheckoutStage.groovy"
   println("Load file with checkout stage '" + checkoutStageFileName + "'")
