@@ -1,4 +1,3 @@
-@Library('shared_libs') _
 import common.configs.pipeline.stage.checkout.CheckoutConfigStage
 import common.configs.pipeline.stage.checkout.GitConfig
 
