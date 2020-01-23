@@ -1,12 +1,10 @@
 @Library('shared_libs') _
-import common.Test
 import pipeline.stage.checkout.config.GitConfig
 import pipeline.stage.checkout.config.CheckoutConfigStage
 
 def pipeline
 node {
-
-  def workSpacePath = env.WORKSPACE
+  def workSpacePath = env.WORKSPACE + "@libs/shared_libs/"
   println(workSpacePath)
 
   def stagesPath = "/pipeline/stage/"
