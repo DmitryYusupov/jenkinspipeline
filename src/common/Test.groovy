@@ -1,4 +1,5 @@
 package common
 
-class Test {
+static String test(){
+    return "HELLOW"
 }
