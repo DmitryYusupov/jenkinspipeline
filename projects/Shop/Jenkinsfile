@@ -2,7 +2,6 @@
 import common.Test
 import pipeline.stage.checkout.config.GitConfig
 import pipeline.stage.checkout.config.CheckoutConfigStage
-import pipeline.stage.checkout.CheckoutConfigStage
 
 def pipeline
 node {
@@ -10,7 +9,7 @@ node {
   def workSpacePath = env.WORKSPACE
   def stagesPath = "/pipeline/stage/"
 
-  def checkoutStageFileName = "common.stage.StageCheckout.groovy"
+  def checkoutStageFileName = "pipeline.stage.checkout.CheckoutStage.groovy"
   println("Load file with checkout stage '" + checkoutStageFileName + "'")
   pipeline = load(workSpacePath + stagesPath + checkoutStageFileName)
   println("File '"+ checkoutStageFileName +"' was successfully loaded")
