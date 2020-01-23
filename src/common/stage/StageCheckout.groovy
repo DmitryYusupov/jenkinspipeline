@@ -1,3 +1,5 @@
+package common.stage
+
 import common.configs.pipeline.stage.checkout.*
 
 def doCheckout(CheckoutConfigStage checkoutConfig) {
