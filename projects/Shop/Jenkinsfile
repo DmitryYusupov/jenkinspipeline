@@ -1,11 +1,12 @@
-import common.configs.pipeline.stage.checkout.CheckoutConfigStage
-import common.configs.pipeline.stage.checkout.GitConfig
+import common.Test
+//import common.configs.pipeline.stage.checkout.GitConfig
 
 def pipeline
 node {
 
   def workSpacePath = env.WORKSPACE
-  def stagesPath = "/pipeline/stage/"
+  println("Hello world")
+  /*def stagesPath = "/pipeline/stage/"
 
   def checkoutStageFileName = "StageCheckout.groovy"
   println("Load file with checkout stage '" + checkoutStageFileName + "'")
@@ -21,5 +22,5 @@ node {
 
   pipeline.doCheckout(checkoutConfig)
   println("Checkout has SUCCESSFULLY finished!")
-
+*/
 }
