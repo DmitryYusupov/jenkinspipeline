@@ -1,5 +1,5 @@
 package pipeline.stages.build.config
 
-enum BuildTool {
+enum BuildTool implements Serializable{
  MAVEN, GRADLE
 }
