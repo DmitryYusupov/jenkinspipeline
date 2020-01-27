@@ -13,5 +13,5 @@ node {
   gitConfig.setBrunch("master")
 
   checkoutConfig.setGitConfig(gitConfig)
-  checkoutStage.doCheckout(checkoutConfig)
+  pipeline.checkoutStage.doCheckout(checkoutConfig)
 }
