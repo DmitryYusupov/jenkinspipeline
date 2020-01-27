@@ -6,6 +6,9 @@ def doBuild(BuildStageConfig stageConfig) {
     stage(stageConfig.stageName) {
 
         Optional<BuildTool> buildTool = stageConfig.getCommandBuildTool()
+        println("AAAAAAAAA")
+        println(buildTool.get())
+        println("BBBBBBBBB")
         if (buildTool.isPresent()) {
 
             switch (buildTool.get()) {
