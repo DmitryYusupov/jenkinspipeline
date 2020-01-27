@@ -7,7 +7,7 @@ def doBuild(BuildStageConfig stageConfig) {
 
         Optional<BuildTool> buildTool = stageConfig.getCommandBuildTool()
         if (buildTool.isPresent()) {
-/*
+
             switch (buildTool.get()) {
                 case BuildTool.MAVEN:
                     buildToolsMaven.call(stageConfig.mavenCommand)
@@ -16,7 +16,7 @@ def doBuild(BuildStageConfig stageConfig) {
                     buildToolsGradle.call(stageConfig.gradleCommand)
                     break
             }
-            */
+
 
         } else {
  //           throw new UnknownBuildToolException();
