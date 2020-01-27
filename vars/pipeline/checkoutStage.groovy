@@ -1,4 +1,3 @@
-package pipeline
 
 import pipeline.stages.checkout.config.CheckoutStageConfig
 
