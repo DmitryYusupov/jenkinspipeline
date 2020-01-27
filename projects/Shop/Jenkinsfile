@@ -2,9 +2,9 @@
 import pipeline.stages.checkout.config.GitConfig
 import pipeline.stages.checkout.config.CheckoutStageConfig
 
-def pipeline
 node {
 
+  //---checkout----
   def checkoutConfig = new CheckoutStageConfig()
   checkoutConfig.setStageName("Shop checkout")
 
@@ -13,26 +13,5 @@ node {
   gitConfig.setBrunch("master")
 
   checkoutConfig.setGitConfig(gitConfig)
-  pipeline.doCheckout(checkoutConfig)
-
-  /*def workSpacePath = env.WORKSPACE + "@libs/global_libs/"
-  println(workSpacePath)
-
-  def stagesPath = "/vars/stage/"
-  def checkoutStageFileName ="CheckoutStage.groovy"
-
-  println("Load file with checkout stage '" + checkoutStageFileName + "'")
-  pipeline = load(workSpacePath + stagesPath + checkoutStageFileName)
-  println("File '"+ checkoutStageFileName +"' was successfully loaded")
-
-  def checkoutConfig = new  CheckoutConfigStage()
-  checkoutConfig.setStageName("Shop checkout")
-  def gitConfig = new GitConfig()
-  gitConfig.setUrl("https://github.com/DmitryYusupov/shop.git")
-  gitConfig.setBrunch("master")
-  checkoutConfig.setGitConfig(gitConfig)
-
-  pipeline.doCheckout(checkoutConfig)
-  println("Checkout has SUCCESSFULLY finished!")
-*/
+  pipeline.stages.checkout.CheckoutStage.doCheckout(checkoutConfig)
 }
