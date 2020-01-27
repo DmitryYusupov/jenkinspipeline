@@ -1,5 +1,3 @@
-package pipeline.stages.checkout
-
 import pipeline.stages.checkout.config.CheckoutStageConfig
 
 def doCheckout(CheckoutStageConfig checkoutConfig) {
