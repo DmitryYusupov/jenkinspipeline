@@ -1,6 +1,7 @@
 @Library('global_libs') _
 import pipeline.stages.checkout.config.GitConfig
 import pipeline.stages.checkout.config.CheckoutStageConfig
+import pipeline.stages.build.config.BuildStageConfig
 
 node {
 
@@ -14,4 +15,10 @@ node {
 
   checkoutConfig.setGitConfig(gitConfig)
   stageCheckout.doCheckout(checkoutConfig)
+
+  //---stage build----
+  def buildStageConfig = new BuildStageConfig()
+  buildStageConfig.setStageName("Build")
+  buildStageConfig.setGradleCommand("clean build")
+  stageBuild.doBuild(buildStageConfig)
 }
