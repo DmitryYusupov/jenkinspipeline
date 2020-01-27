@@ -1,10 +1,10 @@
-@Library('shared_libs') _
-import pipeline.stage.checkout.config.GitConfig
-import pipeline.stage.checkout.config.CheckoutConfigStage
+@Library('global_libs') _
+import pipeline.stages.checkout.GitConfig
+import pipeline.stages.checkout.CheckoutStageConfig
 
 def pipeline
 node {
-  def workSpacePath = env.WORKSPACE + "@libs/shared_libs/"
+  def workSpacePath = env.WORKSPACE + "@libs/global_libs/"
   println(workSpacePath)
 
   def stagesPath = "/vars/stage/"
