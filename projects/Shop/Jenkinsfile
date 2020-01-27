@@ -1,6 +1,5 @@
 @Library('global_libs') _
-import pipeline.stages.checkout.GitConfig
-import pipeline.stages.checkout.CheckoutStageConfig
+import pipeline.stages.checkout.config.GitConfig
 
 def pipeline
 node {

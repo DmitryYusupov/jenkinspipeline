@@ -1,4 +1,4 @@
-package pipeline.stages.checkout
+package pipeline.stages.checkout.config
 
 class GitConfig {
     String url

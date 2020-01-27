@@ -1,5 +1,7 @@
 package pipeline.stages.checkout
 
+import pipeline.stages.checkout.config.CheckoutStageConfig
+
 def doCheckout(CheckoutStageConfig checkoutConfig) {
     stage(checkoutConfig.stageName) {
         checkout scm: [$class           : 'GitSCM',
