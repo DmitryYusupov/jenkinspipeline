@@ -1,8 +1,19 @@
 @Library('global_libs') _
 import pipeline.stages.checkout.config.GitConfig
+import pipeline.stages.checkout.config.CheckoutStageConfig
 
 def pipeline
 node {
+
+  def checkoutConfig = new CheckoutStageConfig()
+  checkoutConfig.setStageName("Shop checkout")
+
+  def gitConfig = new GitConfig()
+  gitConfig.setUrl("https://github.com/DmitryYusupov/shop.git")
+  gitConfig.setBrunch("master")
+
+  checkoutConfig.setGitConfig(gitConfig)
+
   /*def workSpacePath = env.WORKSPACE + "@libs/global_libs/"
   println(workSpacePath)
 
