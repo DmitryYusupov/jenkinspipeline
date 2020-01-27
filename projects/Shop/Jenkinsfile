@@ -13,6 +13,7 @@ node {
   gitConfig.setBrunch("master")
 
   checkoutConfig.setGitConfig(gitConfig)
+  pipeline.doCheckout(checkoutConfig)
 
   /*def workSpacePath = env.WORKSPACE + "@libs/global_libs/"
   println(workSpacePath)
