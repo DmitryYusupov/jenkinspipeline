@@ -4,7 +4,7 @@ import pipeline.stages.checkout.CheckoutStageConfig
 
 def pipeline
 node {
-  def workSpacePath = env.WORKSPACE + "@libs/global_libs/"
+  /*def workSpacePath = env.WORKSPACE + "@libs/global_libs/"
   println(workSpacePath)
 
   def stagesPath = "/vars/stage/"
@@ -23,5 +23,5 @@ node {
 
   pipeline.doCheckout(checkoutConfig)
   println("Checkout has SUCCESSFULLY finished!")
-
+*/
 }
