@@ -4,4 +4,5 @@ class BuildStageConfig {
     String stageName
     String gradleCommand
     String mavenCommand
+
 }
