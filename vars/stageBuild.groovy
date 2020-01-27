@@ -1,12 +1,23 @@
 import pipeline.stages.build.config.BuildStageConfig
+import pipeline.stages.build.config.BuildTool
+import pipeline.stages.common.exceptions.UnknownBuildToolException
 
 def doBuild(BuildStageConfig stageConfig) {
     stage(stageConfig.stageName) {
-        def gradleCommand = stageConfig.gradleCommand
-        if (gradleCommand != null && !gradleCommand.isEmpty()) {
-            buildToolsGradle.call(gradleCommand)
+
+        Optional<BuildTool> buildTool = stageConfig.getCommandBuildTool()
+        if (buildTool.isPresent()) {
+
+            switch (buildTool.get()) {
+                case BuildTool.MAVEN:
+                    buildToolsMaven.call(stageConfig.mavenCommand)
+                    break
+                case BuildTool.GRADLE:
+                    buildToolsGradle.call(stageConfig.gradleCommand)
+                    break
+            }
+        } else {
+            throw new UnknownBuildToolException();
         }
-
-
     }
 }
