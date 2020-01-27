@@ -6,7 +6,7 @@ def doBuild(BuildStageConfig stageConfig) {
     stage(stageConfig.stageName) {
 
         Optional<BuildTool> buildTool = stageConfig.getCommandBuildTool()
-        if (buildTool.isPresent()) {
+      /*  if (buildTool.isPresent()) {
 
             switch (buildTool.get()) {
                 case BuildTool.MAVEN:
@@ -18,6 +18,6 @@ def doBuild(BuildStageConfig stageConfig) {
             }
         } else {
             throw new UnknownBuildToolException();
-        }
+        }*/
     }
 }
