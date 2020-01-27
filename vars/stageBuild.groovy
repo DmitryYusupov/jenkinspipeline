@@ -10,7 +10,7 @@ def doBuild(BuildStageConfig stageConfig) {
         println(buildTool.get())
         println("BBBBBBBBB")
         if (buildTool.isPresent()) {
-
+            println("BBBBBBBBB222")
             switch (buildTool.get()) {
                 case BuildTool.MAVEN:
                     buildToolsMaven.call(stageConfig.mavenCommand)
