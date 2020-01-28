@@ -6,7 +6,7 @@ def doBuild(BuildStageConfig stageConfig) {
             println("HAS COMMANDS")
             if (stageConfig.hasGradleCommands()) {
                 println("HAS GRADLE")
-                buildToolsGradle.call(stageConfig.getGradleCommands())
+              //  buildToolsGradle.call(stageConfig.getGradleCommands())
             }
 
             if (stageConfig.hasMavenCommands()) {
