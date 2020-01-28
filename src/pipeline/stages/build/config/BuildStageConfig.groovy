@@ -1,5 +1,6 @@
 package pipeline.stages.build.config
 
+import org.apache.commons.lang3.StringUtils
 import org.apache.commons.collections4.CollectionUtils
 import pipeline.stages.common.commands.GradleCommand
 import pipeline.stages.common.commands.MavenCommand
