@@ -1,11 +1,11 @@
 import pipeline.stages.common.commands.GradleCommand
 
 void call(GradleCommand command) {
-    bat  command.utility + " $command.getCommand()"
+    bat command.utility + " $command.getCommand()"
 }
 
 void call(Collection<GradleCommand> commands) {
-    commands.forEach(command->{
+    for (GradleCommand command : commands) {
         call(command)
-    })
+    }
 }
