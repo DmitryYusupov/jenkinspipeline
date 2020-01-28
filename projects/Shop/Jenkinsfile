@@ -2,7 +2,7 @@
 import pipeline.stages.checkout.config.GitConfig
 import pipeline.stages.checkout.config.CheckoutStageConfig
 import pipeline.stages.build.config.BuildStageConfig
-
+import pipeline.stages.common.commands.GradleCommand
 node {
 
   //---checkout----
@@ -19,6 +19,9 @@ node {
   //---stage build----
   def buildStageConfig = new BuildStageConfig()
   buildStageConfig.setStageName("Build")
-  buildStageConfig.setGradleCommand("clean build")
+
+  def gradleBuildCommand = new GradleCommand();
+  gradleBuildCommand.command = "clean build"
+  buildStageConfig.setGradleCommands(Arrays.asList(gradleBuildCommand))
   stageBuild.doBuild(buildStageConfig)
 }
