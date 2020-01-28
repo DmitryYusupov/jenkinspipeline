@@ -1,6 +1,11 @@
-void call(String command) {
-    if (command == null)
-        error 'gradle command MUST be defined'
+import pipeline.stages.common.commands.GradleCommand
 
-    bat "gradle $command"
+void call(GradleCommand command) {
+    bat  command.utility + " $command.getCommand()"
+}
+
+void call(Collection<GradleCommand> commands) {
+    commands.forEach(command->{
+        call(command)
+    })
 }

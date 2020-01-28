@@ -1,28 +1,21 @@
+import org.apache.commons.collections4.CollectionUtils
 import pipeline.stages.build.config.BuildStageConfig
-import pipeline.stages.build.config.BuildTool
-import pipeline.stages.common.exceptions.UnknownBuildToolException
 
 def doBuild(BuildStageConfig stageConfig) {
     stage(stageConfig.stageName) {
+        if (stageConfig.hasCommands()) {
 
-        Optional<BuildTool> buildTool = stageConfig.getCommandBuildTool()
-        println("AAAAAAAAA")
-        println(buildTool.get())
-        println("BBBBBBBBB")
-        if (buildTool.isPresent()) {
-            println("BBBBBBBBB222")
-            switch (buildTool.get()) {
-                case BuildTool.MAVEN:
-                    buildToolsMaven.call(stageConfig.mavenCommand)
-                    break
-                case BuildTool.GRADLE:
-                    buildToolsGradle.call(stageConfig.gradleCommand)
-                    break
+            if (CollectionUtils.isNotEmpty(stageConfig.mavenCommands)) {
+                buildToolsGradle.call(stageConfig.getGradleCommands())
             }
 
+            if (CollectionUtils.isNotEmpty(stageConfig.gradleCommands)) {
+
+            }
 
         } else {
- //           throw new UnknownBuildToolException();
+            throw new RuntimeException("No commands");
         }
     }
 }
+

@@ -1,20 +1,15 @@
 package pipeline.stages.build.config
 
-import org.apache.commons.lang3.StringUtils
+import org.apache.commons.collections4.CollectionUtils
+import pipeline.stages.common.commands.GradleCommand
+import pipeline.stages.common.commands.MavenCommand
 
 class BuildStageConfig {
     String stageName
-    String gradleCommand
-    String mavenCommand
+    List<GradleCommand> gradleCommands
+    List<MavenCommand> mavenCommands
 
-    Optional<BuildTool> getCommandBuildTool() {
-        if (StringUtils.isNotBlank(this.gradleCommand)) {
-            return Optional.of(BuildTool.GRADLE)
-        } else if (StringUtils.isNotBlank(this.mavenCommand)) {
-            return Optional.of(BuildTool.MAVEN)
-        } else {
-            return Optional.empty()
-        }
+    boolean hasCommands(){
+        return CollectionUtils.isNotEmpty(gradleCommands) || CollectionUtils.isNotEmpty(mavenCommands);
     }
-
 }
