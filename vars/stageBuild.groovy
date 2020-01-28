@@ -1,16 +1,14 @@
-import org.apache.commons.collections4.CollectionUtils
 import pipeline.stages.build.config.BuildStageConfig
 
 def doBuild(BuildStageConfig stageConfig) {
     stage(stageConfig.stageName) {
         if (stageConfig.hasCommands()) {
 
-            if (CollectionUtils.isNotEmpty(stageConfig.mavenCommands)) {
+            if (stageConfig.hasGradleCommands()) {
                 buildToolsGradle.call(stageConfig.getGradleCommands())
             }
 
-            if (CollectionUtils.isNotEmpty(stageConfig.gradleCommands)) {
-
+            if (stageConfig.hasMavenCommands()) {
             }
 
         } else {
