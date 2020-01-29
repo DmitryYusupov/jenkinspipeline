@@ -1,26 +1,17 @@
 @Library('global_libs') _
-import pipeline.stages.checkout.config.GitConfig
-import pipeline.stages.checkout.config.CheckoutStageConfig
-import pipeline.stages.build.config.BuildStageConfig
-import pipeline.stages.common.commands.GradleCommand
+import pipeline.stages.common.config.reader.ConfigReader
 node {
   //---checkout----
-  def checkoutConfig = new CheckoutStageConfig()
-  checkoutConfig.setStageName("Shop checkout")
 
-  def gitConfig = new GitConfig()
-  gitConfig.setUrl("https://github.com/DmitryYusupov/shop.git")
-  gitConfig.setBrunch("master")
+  def  configs = ConfigReader.parsePipelineConfig("pipeline.xml")
+  stageCheckout.doCheckout(configs.checkoutStageConfig)
 
-  checkoutConfig.setGitConfig(gitConfig)
-  stageCheckout.doCheckout(checkoutConfig)
-
-  //---stage build----
+  /*//---stage build----
   def buildStageConfig = new BuildStageConfig()
   buildStageConfig.setStageName("Build")
 
   def gradleBuildCommand = new GradleCommand();
   gradleBuildCommand.command = "clean build"
   buildStageConfig.setGradleCommands(Arrays.asList(gradleBuildCommand))
-  stageBuild.doBuild(buildStageConfig)
+  stageBuild.doBuild(buildStageConfig)*/
 }

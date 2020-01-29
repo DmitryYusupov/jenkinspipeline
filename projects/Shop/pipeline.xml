@@ -1,0 +1,16 @@
+    <pipeline>
+        <stages>
+
+            <stage name="checkout">
+                <label>Checkout</label>
+                <configs>
+                    <gitconfig>
+                        <url>https://github.com/DmitryYusupov/shop.git</url>
+                        <branch>master</branch>
+                        <tag></tag>
+                    </gitconfig>
+                </configs>
+            </stage>
+
+        </stages>
+    </pipeline>

@@ -3,6 +3,6 @@ package pipeline.stages.checkout.config
 //import org.apache.commons.lang3.StringUtils
 
 class CheckoutStageConfig {
-    String stageName
+    String label
     GitConfig gitConfig
 }
