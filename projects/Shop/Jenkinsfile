@@ -4,12 +4,6 @@ import pipeline.stages.checkout.config.CheckoutStageConfig
 import pipeline.stages.build.config.BuildStageConfig
 import pipeline.stages.common.commands.GradleCommand
 node {
-
-          for(e in env){
-                echo e + " is " + ${e}
-            }
-
-
   //---checkout----
   def checkoutConfig = new CheckoutStageConfig()
   checkoutConfig.setStageName("Shop checkout")
