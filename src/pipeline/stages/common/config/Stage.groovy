@@ -11,8 +11,8 @@ enum Stage {
         }
     }
 
-    static Optional<Stage> fromString(String s) {
-        return Optional.ofNullable(stagesByLabelMap.get(s))
+    static Stage fromString(String s) {
+        return stagesByLabelMap.get(s)
     }
     private String stageName
 
