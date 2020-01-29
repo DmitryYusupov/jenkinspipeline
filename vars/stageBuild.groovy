@@ -1,12 +1,12 @@
 import pipeline.stages.build.config.BuildStageConfig
 
 def doBuild(BuildStageConfig stageConfig) {
+    println("============================BEGIN $stageConfig.stageName ============================")
     stage(stageConfig.stageName) {
         if (stageConfig.hasCommands()) {
-            println("HAS COMMANDS")
+
             if (stageConfig.hasGradleCommands()) {
-                println("HAS GRADLE")
-              //  buildToolsGradle.call(stageConfig.getGradleCommands())
+                buildToolsGradle.call(stageConfig.getGradleCommands())
             }
 
             if (stageConfig.hasMavenCommands()) {
@@ -16,5 +16,6 @@ def doBuild(BuildStageConfig stageConfig) {
             throw new RuntimeException("No commands");
         }
     }
+    println("============================END $stageConfig.stageName ============================")
 }
 
