@@ -30,7 +30,8 @@ class ConfigReader {
             def stage = (Element) stages.item(i)
             String stageNameStr = stage.getAttribute("name")
 
-            Optional<Stage> stageOptional = Stage.fromString(stageNameStr);
+            Optional<Stage> stageOptional = Stage.fromString(stageNameStr)
+            println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
             if (stageOptional.isPresent()) {
                 switch (stageOptional.get()) {
                     case Stage.CHECKOUT:
