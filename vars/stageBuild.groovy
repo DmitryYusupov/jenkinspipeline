@@ -3,7 +3,7 @@ import pipeline.stages.common.commands.BaseCommand
 import pipeline.stages.common.commands.GradleCommand
 
 def doBuild(BuildStageConfig stageConfig) {
-    println("============================BEGIN $stageConfig.stageName ============================")
+    println("============================BEGIN $stageConfig.label ============================")
     stage(stageConfig.stageName) {
         if (stageConfig.hasCommands()) {
 
@@ -18,6 +18,6 @@ def doBuild(BuildStageConfig stageConfig) {
             throw new RuntimeException("No commands");
         }
     }
-    println("============================END $stageConfig.stageName ============================")
+    println("============================END $stageConfig.label ============================")
 }
 
