@@ -6,9 +6,16 @@ import org.w3c.dom.NodeList
 import pipeline.stages.common.config.PipelineConfig
 import pipeline.stages.common.config.Stage
 
+import java.util.function.Supplier
+
 import static pipeline.stages.common.utils.XmlDomUtils.*
 
 class ConfigReader {
+
+    public static void main(String[] args) {
+        def rr = parsePipelineConfig("C:\\Users\\Dmitry_Yusupov\\Desktop\\Jenkins_pipeline\\jenkinspipeline\\projects\\Shop\\pipeline.xml");
+
+    }
 
     static PipelineConfig parsePipelineConfig(String xmlFilePath) {
         def result = new PipelineConfig()
@@ -17,17 +24,26 @@ class ConfigReader {
         def doc = getDocument(file)
 
         def root = getOnlyElementFromDocument(doc, "pipeline")
-        NodeList stages = root.getElementsByTagName("stages")
-
+        NodeList stagesElement = root.getElementsByTagName("stages")
+        def stages = ((Element) stagesElement.item(0)).getElementsByTagName("stage")
         for (int i = 0; i < stages.getLength(); i++) {
-            def stage = stages.item(i);
-            String stageNameStr = ((Element) stage).getAttribute("name")
+            def stage = (Element) stages.item(i)
+            String stageNameStr = stage.getAttribute("name")
 
-            switch (Stage.valueOf(stageNameStr)) {
+            Optional<Stage> stageOptional = Stage.fromString(stageNameStr);
+            if (stageOptional.isPresent()) {
+                switch (stageOptional.get()) {
+                    case Stage.CHECKOUT:
+                        result.setCheckoutStageConfig(CheckoutStageConfigReader.parseCheckoutConfig(stage))
+                        break
 
-                case Stage.CHECKOUT:
-                    result.setCheckoutStageConfig(CheckoutStageConfigReader.parseCheckoutConfig((Element) stage))
-                    break
+                    case Stage.BUILD:
+                        result.setBuildStageConfig(BuildStageConfigReader.parseBuildConfig(stage))
+                        break
+
+                }
+            } else {
+                throw new RuntimeException("No such stage by name '$stageNameStr'")
             }
         }
 

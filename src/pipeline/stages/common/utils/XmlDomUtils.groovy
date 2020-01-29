@@ -29,7 +29,7 @@ final class XmlDomUtils {
 
     static Element getOnlyElement(Element elementSource, String tagName) {
         def children = elementSource.getElementsByTagName(tagName)
-        return children.getLength > 0 ? (Element) children.item(0) : null
+        return children.getLength() > 0 ? (Element) children.item(0) : null
     }
 
 }

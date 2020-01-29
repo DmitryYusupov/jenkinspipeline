@@ -1,17 +1,11 @@
 @Library('global_libs') _
 import pipeline.stages.common.config.reader.ConfigReader
 node {
-  //---checkout----
 
   def  configs = ConfigReader.parsePipelineConfig("C:\\Users\\Dmitry_Yusupov\\Desktop\\Jenkins_pipeline\\jenkinspipeline\\projects\\Shop\\pipeline.xml")
+  //---checkout----
   stageCheckout.doCheckout(configs.checkoutStageConfig)
 
-  /*//---stage build----
-  def buildStageConfig = new BuildStageConfig()
-  buildStageConfig.setStageName("Build")
-
-  def gradleBuildCommand = new GradleCommand();
-  gradleBuildCommand.command = "clean build"
-  buildStageConfig.setGradleCommands(Arrays.asList(gradleBuildCommand))
-  stageBuild.doBuild(buildStageConfig)*/
+  //---stage build----
+  stageBuild.doBuild(configs.buildStageConfig)
 }

@@ -1,16 +1,28 @@
-    <pipeline>
-        <stages>
+<pipeline>
+    <stages>
 
-            <stage name="checkout">
-                <label>Checkout</label>
-                <configs>
-                    <gitconfig>
-                        <url>https://github.com/DmitryYusupov/shop.git</url>
-                        <branch>master</branch>
-                        <tag></tag>
-                    </gitconfig>
-                </configs>
-            </stage>
+        <stage name="checkout">
+            <label>Checkout</label>
+            <configs>
+                <gitconfig>
+                    <url>https://github.com/DmitryYusupov/shop.git</url>
+                    <branch>master</branch>
+                    <tag></tag>
+                </gitconfig>
+            </configs>
+        </stage>
 
-        </stages>
-    </pipeline>
+        <stage name="build">
+            <label>Build</label>
+            <commands>
+                <command type="gradle" utility="gradle">
+                    <value>clean build</value>
+                </command>
+<!--                <command type="maven" utility="mvn">-->
+<!--                    <value>clean build</value>-->
+<!--                </command>-->
+            </commands>
+        </stage>
+
+    </stages>
+</pipeline>

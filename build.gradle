@@ -26,8 +26,9 @@ sourceSets {
     }
 }
 
-
+//https://stackoverflow.com/questions/56513939/how-can-i-disable-intellij-using-the-gradle-run-task-to-run-my-code
 dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.4.12'
     // Jenkins provides this dependency via plugins which use it
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
 
