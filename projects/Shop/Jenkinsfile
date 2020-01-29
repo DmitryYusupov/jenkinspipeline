@@ -2,6 +2,9 @@
 import pipeline.stages.common.config.reader.ConfigReader
 node {
 
+         env.JAVA_HOME="${tool 'Java_11'}"
+         env.PATH="${env.JAVA_HOME}/bin:${env.PATH}"
+
   def  configs = ConfigReader.parsePipelineConfig("C:\\Users\\Dmitry_Yusupov\\Desktop\\Jenkins_pipeline\\jenkinspipeline\\projects\\Shop\\pipeline.xml")
   //---checkout----
   stageCheckout.doCheckout(configs.checkoutStageConfig)
