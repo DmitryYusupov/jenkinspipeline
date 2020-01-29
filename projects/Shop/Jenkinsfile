@@ -1,4 +1,4 @@
-@Library('global_libs@add_pipelines') _
+@Library('global_libs') _
 import pipeline.stages.checkout.config.GitConfig
 import pipeline.stages.checkout.config.CheckoutStageConfig
 import pipeline.stages.build.config.BuildStageConfig
