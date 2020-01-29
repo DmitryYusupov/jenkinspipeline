@@ -3,7 +3,7 @@ import pipeline.stages.common.config.reader.ConfigReader
 node {
   //---checkout----
 
-  def  configs = ConfigReader.parsePipelineConfig("pipeline.xml")
+  def  configs = ConfigReader.parsePipelineConfig("C:\\Users\\Dmitry_Yusupov\\Desktop\\Jenkins_pipeline\\jenkinspipeline\\projects\\Shop\\pipeline.xml")
   stageCheckout.doCheckout(configs.checkoutStageConfig)
 
   /*//---stage build----
