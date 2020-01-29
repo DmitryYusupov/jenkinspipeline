@@ -4,7 +4,7 @@ import pipeline.stages.common.commands.GradleCommand
 
 def doBuild(BuildStageConfig stageConfig) {
     println("============================BEGIN $stageConfig.label ============================")
-    stage(stageConfig.stageName) {
+    stage(stageConfig.label) {
         if (stageConfig.hasCommands()) {
 
             for (BaseCommand command: stageConfig.getCommands()){
