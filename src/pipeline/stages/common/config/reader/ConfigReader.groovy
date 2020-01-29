@@ -1,21 +1,18 @@
 package pipeline.stages.common.config.reader
 
-
 import org.w3c.dom.Element
 import org.w3c.dom.NodeList
 import pipeline.stages.common.config.PipelineConfig
 import pipeline.stages.common.config.Stage
 
-import java.util.function.Supplier
-
-import static pipeline.stages.common.utils.XmlDomUtils.*
+import static pipeline.stages.common.utils.XmlDomUtils.getDocument
+import static pipeline.stages.common.utils.XmlDomUtils.getOnlyElementFromDocument
 
 class ConfigReader {
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         def rr = parsePipelineConfig("C:\\Users\\Dmitry_Yusupov\\Desktop\\Jenkins_pipeline\\jenkinspipeline\\projects\\Shop\\pipeline.xml");
-
-    }
+    }*/
 
     static PipelineConfig parsePipelineConfig(String xmlFilePath) {
         def result = new PipelineConfig()

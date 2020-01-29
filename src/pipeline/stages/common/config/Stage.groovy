@@ -7,20 +7,17 @@ enum Stage {
     static Map<String, Stage> stagesByLabelMap = new HashMap<>();
     static {
         for (Stage stage : values()) {
-            stagesByLabelMap.put(stage.stageName, stage)
+            stagesByLabelMap.put(stage.label, stage)
         }
     }
 
     static Stage fromString(String s) {
         return stagesByLabelMap.get(s)
     }
-    private String stageName
+    private String label
 
-    Stage(String stageName) {
-        this.stageName = stageName
+    Stage(String label) {
+        this.label = label
     }
 
-    String getStageName() {
-        return stageName
-    }
 }
