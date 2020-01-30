@@ -15,7 +15,7 @@
         <stage name="build">
             <label>Build</label>
             <commands>
-                <command type="gradle" utility="gradle">
+                <command type="gradle" utility="gradlew">
                     <value>clean build</value>
                 </command>
 <!--                <command type="maven" utility="mvn">-->
@@ -27,7 +27,7 @@
         <stage name="integrationTests">
             <label>Integration test</label>
             <commands>
-                <command type="gradle" utility="gradle">
+                <command type="gradle" utility="gradlew">
                     <value>integrationTest</value>
                 </command>
                 <!--                <command type="maven" utility="mvn">-->
