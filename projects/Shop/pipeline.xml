@@ -28,7 +28,7 @@
             <label>Integration test</label>
             <commands>
                 <command type="gradle" utility="gradle">
-                    <value>clean build</value>
+                    <value>clean</value>
                 </command>
                 <!--                <command type="maven" utility="mvn">-->
                 <!--                    <value>clean build</value>-->

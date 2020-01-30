@@ -1,11 +1,11 @@
-package pipeline.stages.common.config.reader
+package pipeline.stages.config.reader
 
 import org.w3c.dom.Element
 import pipeline.stages.build.config.BuildStageConfig
-import pipeline.stages.common.config.reader.common.CommandsReader
+import pipeline.stages.config.reader.common.CommandsReader
 
-import static pipeline.stages.common.utils.XmlDomUtils.getOnlyElement
-import static pipeline.stages.common.utils.XmlDomUtils.getOnlyElementTextContent
+import static utils.XmlDomUtils.getOnlyElement
+import static utils.XmlDomUtils.getOnlyElementTextContent
 
 final class BuildStageConfigReader {
     private BuildStageConfigReader() {

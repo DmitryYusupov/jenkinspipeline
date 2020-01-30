@@ -1,4 +1,4 @@
-package pipeline.stages.common.config
+package pipeline.stages.config
 
 enum Stage {
     CHECKOUT("checkout"),

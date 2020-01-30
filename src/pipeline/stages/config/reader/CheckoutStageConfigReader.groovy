@@ -1,10 +1,10 @@
-package pipeline.stages.common.config.reader
+package pipeline.stages.config.reader
 
 import org.w3c.dom.Element
 import pipeline.stages.checkout.config.CheckoutStageConfig
 import pipeline.stages.checkout.config.GitConfig
 
-import static pipeline.stages.common.utils.XmlDomUtils.*
+import static utils.XmlDomUtils.*
 
 class CheckoutStageConfigReader {
     private CheckoutStageConfigReader(){

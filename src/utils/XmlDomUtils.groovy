@@ -1,4 +1,4 @@
-package pipeline.stages.common.utils
+package utils
 
 import org.w3c.dom.Document
 import org.w3c.dom.Element

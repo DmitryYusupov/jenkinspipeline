@@ -1,4 +1,4 @@
-package pipeline.stages.common.utils
+package utils
 
 final class CollectionUtils {
     private CollectionUtils() {

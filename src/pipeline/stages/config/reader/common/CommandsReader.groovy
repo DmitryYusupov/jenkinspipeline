@@ -1,11 +1,11 @@
-package pipeline.stages.common.config.reader.common
+package pipeline.stages.config.reader.common
 
 import org.w3c.dom.Element
 import pipeline.stages.common.commands.BaseCommand
 import pipeline.stages.common.commands.GradleCommand
 import pipeline.stages.common.commands.MavenCommand
 
-import static pipeline.stages.common.utils.XmlDomUtils.getOnlyElementTextContent
+import static utils.XmlDomUtils.getOnlyElementTextContent
 
 final class CommandsReader {
     private CommandsReader(){

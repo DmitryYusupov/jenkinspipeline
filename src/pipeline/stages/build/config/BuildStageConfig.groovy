@@ -2,7 +2,7 @@ package pipeline.stages.build.config
 
 import pipeline.stages.common.commands.BaseCommand
 import pipeline.stages.common.stage.BaseStageConfig
-import pipeline.stages.common.utils.CollectionUtils
+import utils.CollectionUtils
 
 class BuildStageConfig extends BaseStageConfig {
     List<BaseCommand> commands

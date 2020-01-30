@@ -1,4 +1,4 @@
-package pipeline.stages.common.config
+package pipeline.stages.config
 
 import pipeline.stages.build.config.BuildStageConfig
 import pipeline.stages.checkout.config.CheckoutStageConfig

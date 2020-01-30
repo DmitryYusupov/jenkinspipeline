@@ -1,11 +1,11 @@
-package pipeline.stages.common.config.reader
+package pipeline.stages.config.reader
 
 import org.w3c.dom.Element
 import pipeline.stages.common.config.reader.common.CommandsReader
 import pipeline.stages.integrationtest.config.IntegrationTestsStageConfig
 
-import static pipeline.stages.common.utils.XmlDomUtils.getOnlyElement
-import static pipeline.stages.common.utils.XmlDomUtils.getOnlyElementTextContent
+import static utils.XmlDomUtils.getOnlyElement
+import static utils.XmlDomUtils.getOnlyElementTextContent
 
 final class IntegrationTestConfigReader {
 
