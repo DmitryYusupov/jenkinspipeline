@@ -10,9 +10,10 @@ import static pipeline.stages.common.utils.XmlDomUtils.getOnlyElementFromDocumen
 
 class ConfigReader {
 
-    /*public static void main(String[] args) {
+    public static void main(String[] args) {
         def rr = parsePipelineConfig("C:\\Users\\Dmitry_Yusupov\\Desktop\\Jenkins_pipeline\\jenkinspipeline\\projects\\Shop\\pipeline.xml");
-    }*/
+        println("assa")
+    }
 
     static PipelineConfig parsePipelineConfig(String xmlFilePath) {
         def result = new PipelineConfig()
@@ -39,6 +40,8 @@ class ConfigReader {
                         result.setBuildStageConfig(BuildStageConfigReader.parseBuildConfig(stage))
                         break
 
+                    case Stage.INTEGRATION_TESTS:
+                       result.setIntegrationTestsConfig(IntegrationTestConfigReader.parseIntegrationTestsConfig(stage))
                 }
             } else {
                 throw new RuntimeException("No such stage by name '$stageNameStr'")

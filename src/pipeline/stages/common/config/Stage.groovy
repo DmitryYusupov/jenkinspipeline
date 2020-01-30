@@ -2,7 +2,8 @@ package pipeline.stages.common.config
 
 enum Stage {
     CHECKOUT("checkout"),
-    BUILD("build")
+    BUILD("build"),
+    INTEGRATION_TESTS("integrationTests")
 
     static Map<String, Stage> stagesByLabelMap = new HashMap<>();
     static {

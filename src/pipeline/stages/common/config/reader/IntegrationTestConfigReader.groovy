@@ -1,19 +1,20 @@
 package pipeline.stages.common.config.reader
 
 import org.w3c.dom.Element
-import pipeline.stages.build.config.BuildStageConfig
 import pipeline.stages.common.config.reader.common.CommandsReader
+import pipeline.stages.integrationtest.config.IntegrationTestsStageConfig
 
 import static pipeline.stages.common.utils.XmlDomUtils.getOnlyElement
 import static pipeline.stages.common.utils.XmlDomUtils.getOnlyElementTextContent
 
-final class BuildStageConfigReader {
-    private BuildStageConfigReader() {
+final class IntegrationTestConfigReader {
+
+    private IntegrationTestConfigReader(){
 
     }
 
-    static BuildStageConfig parseBuildConfig(Element stage) {
-        def result = new BuildStageConfig()
+    static IntegrationTestsStageConfig parseIntegrationTestsConfig(Element stage) {
+        def result = new IntegrationTestsStageConfig()
         result.label = getOnlyElementTextContent(stage, "label")
 
         def commandsNode = getOnlyElement(stage, "commands")
@@ -25,5 +26,4 @@ final class BuildStageConfigReader {
 
         return result
     }
-
 }

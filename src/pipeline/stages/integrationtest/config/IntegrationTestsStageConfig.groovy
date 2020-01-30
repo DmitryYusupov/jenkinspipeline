@@ -1,10 +1,10 @@
-package pipeline.stages.build.config
+package pipeline.stages.integrationtest.config
 
 import pipeline.stages.common.commands.BaseCommand
 import pipeline.stages.common.stage.BaseStageConfig
 import pipeline.stages.common.utils.CollectionUtils
 
-class BuildStageConfig extends BaseStageConfig {
+class IntegrationTestsStageConfig extends BaseStageConfig {
     List<BaseCommand> commands
 
     boolean hasCommands() {
