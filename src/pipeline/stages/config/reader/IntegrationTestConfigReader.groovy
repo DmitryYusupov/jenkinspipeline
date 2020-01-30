@@ -1,7 +1,7 @@
 package pipeline.stages.config.reader
 
 import org.w3c.dom.Element
-import pipeline.stages.common.config.reader.common.CommandsReader
+import pipeline.stages.config.reader.common.CommandsReader
 import pipeline.stages.integrationtest.config.IntegrationTestsStageConfig
 
 import static utils.XmlDomUtils.getOnlyElement
