@@ -1,4 +1,4 @@
-package pipeline.stages.config.reader
+package pipeline.configreader
 
 import org.w3c.dom.Element
 import pipeline.stages.checkout.config.CheckoutStageConfig

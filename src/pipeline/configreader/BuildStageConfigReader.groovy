@@ -1,8 +1,8 @@
-package pipeline.stages.config.reader
+package pipeline.configreader
 
 import org.w3c.dom.Element
+import pipeline.configreader.common.CommandsReader
 import pipeline.stages.build.config.BuildStageConfig
-import pipeline.stages.config.reader.common.CommandsReader
 
 import static utils.XmlDomUtils.getOnlyElement
 import static utils.XmlDomUtils.getOnlyElementTextContent

@@ -1,4 +1,4 @@
-package pipeline.stages.config.reader.common
+package pipeline.configreader.common
 
 import org.w3c.dom.Element
 import pipeline.stages.common.commands.BaseCommand

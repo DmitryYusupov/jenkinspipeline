@@ -1,9 +1,9 @@
-package pipeline.stages.config.reader
+package pipeline.configreader
 
 import org.w3c.dom.Element
 import org.w3c.dom.NodeList
-import pipeline.stages.config.PipelineConfig
-import pipeline.stages.config.Stage
+import pipeline.config.PipelineConfig
+import pipeline.stages.Stage
 
 import java.nio.file.FileSystems
 
