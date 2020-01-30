@@ -27,7 +27,7 @@
         <stage name="integrationTests">
             <label>Integration test</label>
             <commands>
-                <command type="gradle" utility="gradlew">
+                <command type="gradle" utility="gradle2">
                     <value>integrationTest --debug</value>
                 </command>
                 <!--                <command type="maven" utility="mvn">-->
