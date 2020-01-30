@@ -9,7 +9,7 @@ void call(GradleCommand gradleCommand) {
     def utility = gradleCommand.utility
     switch (os) {
         case Os.WINDOWS:
-            bat utility + " $command"
+            bat "${utility} ${command}"
             break
 
         case Os.UNIX:
