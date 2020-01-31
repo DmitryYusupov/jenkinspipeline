@@ -27,12 +27,12 @@
         <stage name="integrationTests">
             <label>Integration test</label>
             <commands>
-                <command type="gradle" utility="gradle">
-                    <value>integrationTest</value>
-                </command>
-                <!--                <command type="maven" utility="mvn">-->
-                <!--                    <value>clean build</value>-->
-                <!--                </command>-->
+<!--                <command type="gradle" utility="gradle">-->
+<!--                    <value>integrationTest</value>-->
+<!--                </command>-->
+                               <command type="maven" utility="mvn">
+                                    <value>clean build</value>
+                                </command>
             </commands>
         </stage>
 

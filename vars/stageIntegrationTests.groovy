@@ -1,5 +1,6 @@
 import pipeline.stages.common.commands.BaseCommand
 import pipeline.stages.common.commands.GradleCommand
+import pipeline.stages.common.commands.MavenCommand
 import pipeline.stages.integrationtest.config.IntegrationTestsStageConfig
 
 def doIntegrationTests(IntegrationTestsStageConfig stageConfig) {
@@ -11,6 +12,10 @@ def doIntegrationTests(IntegrationTestsStageConfig stageConfig) {
 
                 if(command instanceof GradleCommand){
                     buildToolsGradle.call(command as GradleCommand)
+                }
+
+                if(command instanceof MavenCommand){
+                    buildToolsMaven.call(command as MavenCommand)
                 }
 
             }
