@@ -31,7 +31,7 @@
 <!--                    <value>integrationTest</value>-->
 <!--                </command>-->
                                <command type="maven" utility="mvn">
-                                    <value>clean build</value>
+                                    <value>integrationTest</value>
                                 </command>
             </commands>
         </stage>
