@@ -6,7 +6,7 @@
             <configs>
                 <gitconfig>
                     <url>https://github.com/DmitryYusupov/shop.git</url>
-                    <branch>master</branch>
+                    <branch>testing</branch>
                     <tag></tag>
                 </gitconfig>
             </configs>
@@ -15,7 +15,7 @@
         <stage name="build">
             <label>Build</label>
             <commands>
-                <command type="gradle" utility="gradlew">
+                <command type="gradle" utility="gradle">
                     <value>clean build</value>
                 </command>
 <!--                <command type="maven" utility="mvn">-->
@@ -27,12 +27,12 @@
         <stage name="integrationTests">
             <label>Integration test</label>
             <commands>
-<!--                <command type="gradle" utility="gradle">-->
-<!--                    <value>integrationTest</value>-->
-<!--                </command>-->
-                               <command type="maven" utility="mvn">
-                                    <value>integrationTest</value>
-                                </command>
+                <command type="gradle" utility="gradle">
+                    <value>integrationTest</value>
+                </command>
+<!--                               <command type="maven" utility="mvn">-->
+<!--                                    <value>integrationTest</value>-->
+<!--                                </command>-->
             </commands>
         </stage>
 
