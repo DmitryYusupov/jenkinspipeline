@@ -6,7 +6,10 @@ def setJavaHome(String jenkinsJavaName) {
 
     env.JAVA_HOME = "${tool "" + jenkinsJavaName + ""}"
     if (Os.WINDOWS.equals(os)) {
-        env.PATH="%${env.PATH}%;${env.JAVA_HOME}/bin"
+        environment {
+            PATH = "${env.JAVA_HOME}/bin:$PATH"
+        }
+//        env.PATH = "${env.JAVA_HOME}/bin:${env.PATH}"
     } else {
         //linux
         env.PATH = "${env.JAVA_HOME}/bin:${env.PATH}"
