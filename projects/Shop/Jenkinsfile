@@ -1,20 +1,19 @@
 @Library('global_libs') _
 import pipeline.configreader.ConfigReader
-pipeline {
-  stages {
-    def configs = ConfigReader.parsePipelineConfig("C:\\Users\\Dmitry_Yusupov\\Desktop\\Jenkins_pipeline\\jenkinspipeline\\projects\\Shop\\pipeline.xml")
 
-    javaUtils.setJavaHome("Java_11")
-    //---checkout----
-    stageCheckout.doCheckout(configs.checkoutStageConfig)
+  node {
+   def configs = ConfigReader.parsePipelineConfig("C:\\Users\\Dmitry_Yusupov\\Desktop\\Jenkins_pipeline\\jenkinspipeline\\projects\\Shop\\pipeline.xml")
 
-    //---stage build----
-    stageBuild.doBuild(configs.buildStageConfig)
+   javaUtils.setJavaHome("Java_11")
+   //---checkout----
+   stageCheckout.doCheckout(configs.checkoutStageConfig)
 
-    //--stage integration tests----
-    if (configs.integrationTestsConfig != null) {
-     stageIntegrationTests.doIntegrationTests(configs.integrationTestsConfig)
-    }
-}
+   //---stage build----
+   stageBuild.doBuild(configs.buildStageConfig)
 
-}
+   //--stage integration tests----
+   if (configs.integrationTestsConfig != null) {
+    stageIntegrationTests.doIntegrationTests(configs.integrationTestsConfig)
+   }
+
+ }
