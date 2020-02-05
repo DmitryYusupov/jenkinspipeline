@@ -17,7 +17,7 @@ node {
 
         //--stage integration tests----
         if (configs.integrationTestsStageConfig != null) {
-            stageIntegrationTests.doIntegrationTests(configs.integrationTestsStageConfig, pipelineContext)
+          //  stageIntegrationTests.doIntegrationTests(configs.integrationTestsStageConfig, pipelineContext)
         }
 
         //--stage dockerize----

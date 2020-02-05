@@ -14,7 +14,7 @@ def doContainerisation(DockeriseStageConfig dockeriseConfig, PipelineContext pip
 
 def buildImage(BuildImageConfig buildImageConfig) {
 
-    def tagName = buildImageConfig.tagPrefix + "_" + $ { env.BUILD_ID }
+    def tagName = buildImageConfig.tagPrefix + "_" + env.BUILD_ID
 
     def dockerFileDir = buildImageConfig.dockerFileDir
     if (dockerFileDir == null || dockerFileDir.isEmpty()) {
