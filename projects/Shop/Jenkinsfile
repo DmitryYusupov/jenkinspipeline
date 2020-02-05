@@ -23,10 +23,11 @@ node {
         //--stage dockerize----
         if (configs.dockeriseStageConfig != null) {
             stageDockerise.doContainerisation(configs.dockeriseStageConfig, pipelineContext)
+            stageDockerise.revertStageChanges(null, pipelineContext)
         }
     } catch (Exception e) {
-        exceptionHandler.handleException(e, pipelineContext)
-         currentBuild.result = 'FAILURE'
+        //exceptionHandler.handleException(e, pipelineContext)
+        currentBuild.result = 'FAILURE'
     }
 
 }
