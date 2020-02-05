@@ -41,8 +41,7 @@ def revertStageChanges(Exception exception, PipelineContext pipelineContext) {
             def imageToDelete = dockerContext.image + ":" + dockerContext.tag
             println("Try delete image '$imageToDelete'")
 
-            def listCreatedImageCommand = "docker image ls $dockerContext.image:$dockerContext.tag"
-            def deleteCreateImageCommand = "docker rmi \$($listCreatedImageCommand)"
+            def deleteCreateImageCommand = "docker rmi $dockerContext.image:$dockerContext.tag"
 
             def currentOs = OsUtils.getOS()
             switch (currentOs) {
