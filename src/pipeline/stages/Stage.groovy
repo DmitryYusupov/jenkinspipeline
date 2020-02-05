@@ -3,7 +3,8 @@ package pipeline.stages
 enum Stage {
     CHECKOUT("checkout"),
     BUILD("build"),
-    INTEGRATION_TESTS("integrationTests")
+    INTEGRATION_TESTS("integrationTests"),
+    DOCKERISE("dockerise")
 
     static Map<String, Stage> stagesByLabelMap = new HashMap<>();
     static {

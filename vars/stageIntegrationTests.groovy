@@ -2,8 +2,9 @@ import pipeline.stages.common.commands.BaseCommand
 import pipeline.stages.common.commands.GradleCommand
 import pipeline.stages.common.commands.MavenCommand
 import pipeline.stages.integrationtest.config.IntegrationTestsStageConfig
+import  pipeline.stages.common.stage.PipelineContext
 
-def doIntegrationTests(IntegrationTestsStageConfig stageConfig) {
+def doIntegrationTests(IntegrationTestsStageConfig stageConfig, PipelineContext pipelineContext) {
     println("============================BEGIN $stageConfig.label ============================")
     stage(stageConfig.label) {
         if (stageConfig.hasCommands()) {

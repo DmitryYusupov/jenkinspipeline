@@ -1,8 +1,9 @@
 import pipeline.stages.build.config.BuildStageConfig
 import pipeline.stages.common.commands.BaseCommand
 import pipeline.stages.common.commands.GradleCommand
+import  pipeline.stages.common.stage.PipelineContext
 
-def doBuild(BuildStageConfig stageConfig) {
+def doBuild(BuildStageConfig stageConfig, PipelineContext context) {
     println("============================BEGIN $stageConfig.label ============================")
     stage(stageConfig.label) {
         if (stageConfig.hasCommands()) {
