@@ -21,7 +21,7 @@ def buildImage(BuildImageConfig buildImageConfig) {
         def image = docker.build("$buildImageConfig.imageName:$tagName")
         return image
     } else {
-        def image = docker.build("$buildImageConfig.imageName:$buildId", dockerFileDir)
+        def image = docker.build("$buildImageConfig.imageName:$tagName", dockerFileDir)
         return image
     }
 }
