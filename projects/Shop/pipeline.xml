@@ -44,7 +44,7 @@
 
                 <buildImageConfig>
                     <dockerFileDir>./</dockerFileDir>
-                    <imageName>Test</imageName>
+                    <imageName>my-image</imageName>
                     <tagPrefix>env1</tagPrefix>
                 </buildImageConfig>
             </configs>
