@@ -47,6 +47,10 @@
                     <imageName>my-image</imageName>
                     <tagPrefix>env1</tagPrefix>
                 </buildImageConfig>
+
+                <pushImageConfig>
+
+                </pushImageConfig>
             </configs>
         </stage>
 

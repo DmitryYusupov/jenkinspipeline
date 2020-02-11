@@ -13,23 +13,10 @@ import static utils.XmlDomUtils.getOnlyElementFromDocument
 class ConfigReader {
 
     public static void main(String[] args) {
-        /*   def rr = parsePipelineConfig("C:\\Users\\Dmitry_Yusupov\\Desktop\\Jenkins_pipeline\\jenkinspipeline\\projects\\Shop\\pipeline.xml");
+           def rr = parsePipelineConfig("C:\\Users\\Dmitry_Yusupov\\Desktop\\Jenkins_pipeline\\jenkinspipeline\\projects\\Shop\\pipeline.xml");
         def ff = FileSystems.getDefault()
-        println("assa")*/
-
-        def result = getNextVersion("2.0.2")
+        /*println("assa")*/
         println()
-    }
-
-    static String getNextVersion(version){
-
-        def newVersion = version.split("\\.")
-
-        int value = newVersion[2].toInteger()
-        value = value + 1
-        def lastVersion = newVersion[0] + "." + newVersion[1] + "." + value
-
-        return lastVersion
     }
 
     static PipelineConfig parsePipelineConfig(String xmlFilePath) {
@@ -73,7 +60,6 @@ class ConfigReader {
 
         return result
     }
-
 
     private static File getFile(String xmlFilePath) {
         File file = new File(xmlFilePath);
