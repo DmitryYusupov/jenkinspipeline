@@ -6,6 +6,9 @@ import pipeline.stages.dockerise.context.DockeriseStageContext
 import utils.os.Os
 import utils.os.OsUtils
 
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+
 def doContainerisation(DockeriseStageConfig dockeriseConfig, PipelineContext pipelineContext) {
     println("============================BEGIN $dockeriseConfig.label ============================")
     stage(dockeriseConfig.label) {
@@ -62,6 +65,11 @@ private deleteImagesIfNumberOfStoredImagesHasExpired(int maxImagesToStore, Strin
     def command = getCommandToGetDockerImages(imageName, imageTag, imageTagPrefix)
     def output = osUtils.runCommandReturningOutput(command)
     def images = parseDockerImagesDataFromOutputString(output, imageName)
+
+    println("---------")
+    for (DockerImage img : images) {
+        println(img)
+    }
 }
 
 private String getCommandToGetDockerImages(String imageName, String imageTag, String imageTagPrefix) {
@@ -81,24 +89,60 @@ private String getCommandToGetDockerImages(String imageName, String imageTag, St
             return command
 
         default:
-            throw new RuntimeException("No utility detected to execute gradle command '$deleteCreateImageCommand'")
+            throw new RuntimeException("Impossible to get dockerImages command. Unknown OS!")
     }
 }
 
 class DockerImage {
     String name
     String tag
+    String id
+
+    @Override
+    public String toString() {
+        return "DockerImage{" +
+                "name='" + name + '\'' +
+                ", tag='" + tag + '\'' +
+                ", id='" + id + '\'' +
+                '}';
+    }
+
+    boolean isDockerImageValid() {
+        return (name != null && !name.isEmpty())
+                && (tag != null && !tag.isEmpty())
+                && (id != null && !id.isEmpty())
+    }
 }
 
 private List<DockerImage> parseDockerImagesDataFromOutputString(String outputStr, String imageName) {
     List<DockerImage> result = new ArrayList<>()
     def splited = outputStr.split("\n")
 
+
+    def regExp = "(\\S+)(\\w+)(\\S+)(\\w+)(\\S+)(.+)"
+    Pattern pattern = Pattern.compile(regExp)
+
+
     for (int i = 0; i < splited.length; i++) {
-        def imageInfoStr = splited[i]
+        def imageInfoStr = splited[i].trim();
         if (imageInfoStr.startsWith(imageName)) {
-            println("AAAA " + imageInfoStr.trim())
+
+            def dockerImage = new DockerImage()
+            dockerImage.name = imageName
+            imageInfoStr = imageInfoStr.replaceFirst(imageName, "")
+            Matcher matcher = pattern.matcher(imageInfoStr)
+
+            if (matcher.find() && matcher.groupCount() == 6) {
+                dockerImage.tag = matcher.group(2)
+                dockerImage.id = matcher.group(4)
+            }
+
+            result.add(dockerImage)
         }
     }
+
     return result
 }
+
+
+
