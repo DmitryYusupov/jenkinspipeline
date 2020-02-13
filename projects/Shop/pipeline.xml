@@ -36,6 +36,7 @@
         </stage>
         <stage name="dockerise">
             <label>Dockerise</label>
+            <numberOfImagesToStore>3</numberOfImagesToStore>
             <configs>
                 <accessConfig>
                 </accessConfig>

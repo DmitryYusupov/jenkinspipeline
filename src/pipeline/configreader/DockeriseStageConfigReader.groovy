@@ -15,6 +15,7 @@ final class DockeriseStageConfigReader {
     static DockeriseStageConfig parseDockeriseStageConfig(Element stage) {
         def result = new DockeriseStageConfig()
         result.label = getOnlyElementTextContent(stage, "label")
+        result.numberOfImagesToStore = Integer.parseInt(getOnlyElementTextContent(stage, "numberOfImagesToStore"));
 
         def configs = getOnlyElement(stage, "configs")
 

@@ -9,6 +9,7 @@ sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
+    maven {url "https://repo.spring.io/plugins-release"}
 }
 
 sourceSets {
@@ -31,7 +32,7 @@ dependencies {
     compile 'org.codehaus.groovy:groovy-all:2.4.12'
     // Jenkins provides this dependency via plugins which use it
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
-
+    compile group: 'org.jenkins-ci.plugins', name: 'docker-workflow', version: '1.7'
     // https://mvnrepository.com/artifact/org.apache.commons/commons-collections4
 //    compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.0'
 

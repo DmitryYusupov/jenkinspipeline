@@ -3,6 +3,7 @@ import pipeline.stages.dockerise.config.BuildImageConfig
 import pipeline.stages.dockerise.config.DockeriseStageConfig
 import pipeline.stages.dockerise.context.BuildImageStageContext
 import pipeline.stages.dockerise.context.DockeriseStageContext
+import org.jenkinsci.plugins.docker.workflow.Docker.Image
 import utils.os.Os
 import utils.os.OsUtils
 
@@ -14,11 +15,20 @@ def doContainerisation(DockeriseStageConfig dockeriseConfig, PipelineContext pip
     stage(dockeriseConfig.label) {
         def image = buildImage(dockeriseConfig.buildImageConfig, pipelineContext)
         println("Image was build " + image)
+
+        def tagName = dockeriseConfig.buildImageConfig.tagPrefix + "_" + env.BUILD_ID
+        deleteImagesIfNumberOfStoredImagesHasExpired(
+                dockeriseConfig.numberOfImagesToStore,
+                image.imageName(),
+                tagName,
+                dockeriseConfig.buildImageConfig.tagPrefix
+        )
+
     }
     println("============================END $dockeriseConfig.label ============================")
 }
 
-private def buildImage(BuildImageConfig buildImageConfig, PipelineContext pipelineContext) {
+private Image buildImage(BuildImageConfig buildImageConfig, PipelineContext pipelineContext) {
 
     def curStageContext = new DockeriseStageContext()
     def buildImageStageContext = new BuildImageStageContext()
