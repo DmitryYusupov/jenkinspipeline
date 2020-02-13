@@ -62,8 +62,6 @@ private deleteImagesIfNumberOfStoredImagesHasExpired(int maxImagesToStore, Strin
     def command = getCommandToGetDockerImages(imageName, imageTag, imageTagPrefix)
     def output = osUtils.runCommandReturningOutput(command)
     def images = parseDockerImagesDataFromOutputString(output, imageName)
-
-    println(output)
 }
 
 private String getCommandToGetDockerImages(String imageName, String imageTag, String imageTagPrefix) {
@@ -99,7 +97,7 @@ private List<DockerImage> parseDockerImagesDataFromOutputString(String outputStr
     for (int i = 0; i < splited.length; i++) {
         def imageInfoStr = splited[i]
         if (imageInfoStr.startsWith(imageName)) {
-            println("AAAA " + imageInfoStr)
+            println("AAAA " + imageInfoStr.trim())
         }
     }
     return result
