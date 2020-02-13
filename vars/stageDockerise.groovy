@@ -99,7 +99,7 @@ private List<DockerImage> parseDockerImagesDataFromOutputString(String outputStr
     for (int i = 0; i < splited.length; i++) {
         def imageInfoStr = splited[i]
         if (imageInfoStr.startsWith(imageName)) {
-            println(imageInfoStr)
+            println("AAAA " + imageInfoStr)
         }
     }
     return result
