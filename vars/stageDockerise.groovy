@@ -66,9 +66,11 @@ private deleteImagesIfNumberOfStoredImagesHasExpired(int maxImagesToStore, Strin
     def output = osUtils.runCommandReturningOutput(command)
     def images = parseDockerImagesDataFromOutputString(output, imageName)
 
-    for (DockerImage img : images) {
-        println(img.toString())
+    if (!images.isEmpty()) {
+        images = Collections.reverse(images);
+        deleteImageIfNeed(images, maxImagesToStore)
     }
+
 }
 
 private String getCommandToGetDockerImages(String imageName, String imageTag, String imageTagPrefix) {
@@ -108,7 +110,7 @@ class DockerImage {
     }
 
     boolean isImageValid() {
-        return (name != null && !name.isEmpty())  && (tag != null && !tag.isEmpty()) && (id != null && !id.isEmpty());
+        return (name != null && !name.isEmpty()) && (tag != null && !tag.isEmpty()) && (id != null && !id.isEmpty());
 
     }
 }
@@ -143,5 +145,22 @@ private List<DockerImage> parseDockerImagesDataFromOutputString(String outputStr
     return result
 }
 
-
+private void deleteImageIfNeed(List<DockerImage> images, int threshold) {
+    if (images.size() > threshold) {
+        println("-----------BEGIN. Dockerise. Clean old images-----------------")
+        int numberOfImagesToDelete = images.size() - threshold;
+        for (int i = 0; i < numberOfImagesToDelete; i++) {
+            def image = images.get(i)
+            def imageInfo = "$image.name:$image.tag $image.id"
+            println("Try to delete image '$imageInfo'")
+            def isSuccessfullyDeleted = osUtils.runCommandReturningStatusAsBool("docker rmi $image.id")
+            if (isSuccessfullyDeleted) {
+                println("Image '$imageInfo' was successfully")
+            }else{
+                println("WARNING WARNING Image '$imageInfo' WAS NOT DELETED!")
+            }
+        }
+        println("-----------END. Dockerise. Clean old images.-----------------")
+    }
+}
 
