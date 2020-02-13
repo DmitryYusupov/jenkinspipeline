@@ -2,6 +2,7 @@ package pipeline.configreader
 
 import org.w3c.dom.Element
 import org.w3c.dom.NodeList
+import pipeline.config.GlobalPipelineConfigs
 import pipeline.config.PipelineConfig
 import pipeline.stages.Stage
 
@@ -9,11 +10,12 @@ import java.nio.file.FileSystems
 
 import static utils.XmlDomUtils.getDocument
 import static utils.XmlDomUtils.getOnlyElementFromDocument
+import static utils.XmlDomUtils.getOnlyElementTextContent
 
 class ConfigReader {
 
     public static void main(String[] args) {
-           def rr = parsePipelineConfig("C:\\Users\\Dmitry_Yusupov\\Desktop\\Jenkins_pipeline\\jenkinspipeline\\projects\\Shop\\pipeline.xml");
+        def rr = parsePipelineConfig("C:\\Users\\Dmitry_Yusupov\\Desktop\\Jenkins_pipeline\\jenkinspipeline\\projects\\Shop\\pipeline.xml");
         def ff = FileSystems.getDefault()
         /*println("assa")*/
         println()
@@ -26,6 +28,7 @@ class ConfigReader {
         def doc = getDocument(file)
 
         def root = getOnlyElementFromDocument(doc, "pipeline")
+        parseAndAppendPipelineGlobalConfigs(result, root)
         NodeList stagesElement = root.getElementsByTagName("stages")
         def stages = ((Element) stagesElement.item(0)).getElementsByTagName("stage")
         for (int i = 0; i < stages.getLength(); i++) {
@@ -69,6 +72,12 @@ class ConfigReader {
         }
 
         return file
+    }
+
+    private static void parseAndAppendPipelineGlobalConfigs(PipelineConfig pipelineConfig, Element pipelineRoot) {
+        def globalPipelineConfigs = new GlobalPipelineConfigs();
+        globalPipelineConfigs.release = Boolean.valueOf(getOnlyElementTextContent(pipelineRoot, "release"))
+        pipelineConfig.globalPipelineConfigs = globalPipelineConfigs;
     }
 
 }

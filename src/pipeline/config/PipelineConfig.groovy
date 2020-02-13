@@ -6,6 +6,7 @@ import pipeline.stages.dockerise.config.DockeriseStageConfig
 import pipeline.stages.integrationtest.config.IntegrationTestsStageConfig
 
 class PipelineConfig {
+    GlobalPipelineConfigs globalPipelineConfigs;
     CheckoutStageConfig checkoutStageConfig
     BuildStageConfig buildStageConfig
     IntegrationTestsStageConfig integrationTestsStageConfig

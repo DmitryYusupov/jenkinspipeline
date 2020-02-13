@@ -7,8 +7,10 @@ node {
     try {
         def configs = ConfigReader.parsePipelineConfig("C:\\Users\\Dmitry_Yusupov\\Desktop\\Jenkins_pipeline\\jenkinspipeline\\projects\\Shop\\pipeline.xml")
         pipelineContext = new PipelineContext()
+        pipelineContext.globalPipelineConfigs = configs.globalPipelineConfigs
 
-        javaUtils.setJavaHome("Java_11")
+       stageDockerise.deleteImagesIfNumberOfStoredImagesHasExpired(1, "s","s")
+      /*  javaUtils.setJavaHome("Java_11")
         //---checkout----
         stageCheckout.doCheckout(configs.checkoutStageConfig, pipelineContext)
 
@@ -24,7 +26,7 @@ node {
         if (configs.dockeriseStageConfig != null) {
             stageDockerise.doContainerisation(configs.dockeriseStageConfig, pipelineContext)
          //   stageDockerise.revertStageChanges(null, pipelineContext)
-        }
+        }*/
     } catch (Exception e) {
         //exceptionHandler.handleException(e, pipelineContext)
         currentBuild.result = 'FAILURE'

@@ -1,6 +1,7 @@
 <pipeline>
-    <stages>
+    <release>true</release>
 
+    <stages>
         <stage name="checkout">
             <label>Checkout</label>
             <configs>
@@ -11,7 +12,6 @@
                 </gitconfig>
             </configs>
         </stage>
-
         <stage name="build">
             <label>Build</label>
             <commands>
@@ -23,7 +23,6 @@
                 <!--                </command>-->
             </commands>
         </stage>
-
         <stage name="integrationTests">
             <label>Integration test</label>
             <commands>
@@ -35,7 +34,6 @@
                 <!--                                </command>-->
             </commands>
         </stage>
-
         <stage name="dockerise">
             <label>Dockerise</label>
             <configs>
@@ -53,6 +51,5 @@
                 </pushImageConfig>
             </configs>
         </stage>
-
     </stages>
 </pipeline>

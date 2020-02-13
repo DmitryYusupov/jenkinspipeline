@@ -72,3 +72,10 @@ private def revertBuildImageStageChanges(Exception exception, BuildImageStageCon
     }
     println("----END ErrorHandling <DockeriseStage> ----")
 }
+
+private deleteImagesIfNumberOfStoredImagesHasExpired(int maxImagesToStore, String imageName, String imageTag){
+    String s   = "docker images --filter \"before=my-image:env1_27\" | grep 'my-image' | grep 'env1_'";
+
+    def gitCommit = bat(returnStdout: true, script: s).trim()
+    echo gitCommit;
+}
