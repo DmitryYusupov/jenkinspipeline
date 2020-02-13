@@ -5,7 +5,7 @@ class DockerImage {
     String tag
     String id
 
-    @Override
+   /* @Override
     public String toString() {
         return "DockerImage{" +
                 "name='" + name + '\'' +
@@ -13,10 +13,10 @@ class DockerImage {
                 ", id='" + id + '\'' +
                 '}';
     }
-
-    boolean isDockerImageValid() {
+*/
+   /* boolean isDockerImageValid() {
         return (name != null && !name.isEmpty())
                 && (tag != null && !tag.isEmpty())
                 && (id != null && !id.isEmpty())
-    }
+    }*/
 }
