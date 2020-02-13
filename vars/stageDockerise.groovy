@@ -149,13 +149,13 @@ private void deleteImageIfNeed(List<DockerImage> images, int threshold) {
     if (images.size() > threshold) {
         println("-----------BEGIN. Dockerise. Exec delete old images-----------------")
         int numberOfImagesToDelete = images.size() - threshold;
-        for (int i = 0; i < numberOfImagesToDelete; i++) {
+        for (int i = 0; i <= numberOfImagesToDelete; i++) {
             def image = images.get(i)
             def imageInfo = "$image.name:$image.tag $image.id"
             println("Try to delete image '$imageInfo'")
             def isSuccessfullyDeleted = osUtils.runCommandReturningStatusAsBool("docker rmi $image.id")
             if (isSuccessfullyDeleted) {
-                println("Image '$imageInfo' was successfully")
+                println("Image '$imageInfo' was successfully deleted")
             }else{
                 println("WARNING WARNING Image '$imageInfo' WAS NOT DELETED!")
             }
