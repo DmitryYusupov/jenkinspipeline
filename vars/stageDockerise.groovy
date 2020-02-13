@@ -139,8 +139,6 @@ private List<DockerImage> parseDockerImagesDataFromOutputString(String outputStr
             def dockerImage = new DockerImage()
             dockerImage.name = imageName
             imageInfoStr = imageInfoStr.replaceFirst(imageName, "")
-            println("'" + imageInfoStr + "'")
-
             Matcher matcher = pattern.matcher(imageInfoStr)
 
             if (matcher.find() && matcher.groupCount() == 4) {
