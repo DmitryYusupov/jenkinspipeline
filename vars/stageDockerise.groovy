@@ -1,5 +1,5 @@
 import pipeline.stages.common.stage.PipelineContext
-import pipeline.stages.dockerise.classes.DockerImage
+//import pipeline.stages.dockerise.classes.DockerImage
 import pipeline.stages.dockerise.config.BuildImageConfig
 import pipeline.stages.dockerise.config.DockeriseStageConfig
 import pipeline.stages.dockerise.context.BuildImageStageContext
@@ -68,7 +68,7 @@ private deleteImagesIfNumberOfStoredImagesHasExpired(int maxImagesToStore, Strin
     print("B")
     def output = osUtils.runCommandReturningOutput(command)
     print("C")
-    def images = parseDockerImagesDataFromOutputString(output, imageName)
+   // def images = parseDockerImagesDataFromOutputString(output, imageName)
     print("D")
     println("---------")
    /* for (DockerImage img : images) {
@@ -96,7 +96,7 @@ private String getCommandToGetDockerImages(String imageName, String imageTag, St
             throw new RuntimeException("Impossible to get dockerImages command. Unknown OS!")
     }
 }
-
+/*
 
 
 private List<DockerImage> parseDockerImagesDataFromOutputString(String outputStr, String imageName) {
@@ -125,8 +125,8 @@ private List<DockerImage> parseDockerImagesDataFromOutputString(String outputStr
         }
     }
 */
-    return result
-}
+    /*return result
+}*/
 
 
 
