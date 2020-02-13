@@ -15,7 +15,7 @@ class DockerImage {
     }
 */
     boolean isImageValid() {
-        return (name != null && !name.isEmpty());
+        return (name != null && !name.isEmpty())  && (tag != null && !tag.isEmpty()) && (id != null && !id.isEmpty());
 
     }
 }
