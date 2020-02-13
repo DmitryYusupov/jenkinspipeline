@@ -68,12 +68,12 @@ private deleteImagesIfNumberOfStoredImagesHasExpired(int maxImagesToStore, Strin
     print("B")
     def output = osUtils.runCommandReturningOutput(command)
     print("C")
-   // def images = parseDockerImagesDataFromOutputString(output, imageName)
+    def images = parseDockerImagesDataFromOutputString(output, imageName)
     print("D")
     println("---------")
-   /* for (DockerImage img : images) {
+    for (DockerImage img : images) {
         println(img)
-    }*/
+    }
 }
 
 private String getCommandToGetDockerImages(String imageName, String imageTag, String imageTagPrefix) {
@@ -96,7 +96,7 @@ private String getCommandToGetDockerImages(String imageName, String imageTag, St
             throw new RuntimeException("Impossible to get dockerImages command. Unknown OS!")
     }
 }
-/*
+
 
 
 private List<DockerImage> parseDockerImagesDataFromOutputString(String outputStr, String imageName) {
@@ -125,8 +125,8 @@ private List<DockerImage> parseDockerImagesDataFromOutputString(String outputStr
         }
     }
 */
-    /*return result
-}*/
+    return result
+}
 
 
 
