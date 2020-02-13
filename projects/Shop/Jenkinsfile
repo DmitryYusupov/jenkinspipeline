@@ -9,7 +9,7 @@ node {
         pipelineContext = new PipelineContext()
         pipelineContext.globalPipelineConfigs = configs.globalPipelineConfigs
 
-       stageDockerise.deleteImagesIfNumberOfStoredImagesHasExpired(1, "my-image","env1_27","env1_")
+       stageDockerise.deleteImagesIfNumberOfStoredImagesHasExpired(1, "my-image","env1_43","env1_")
        /* javaUtils.setJavaHome("Java_11")
         //---checkout----
         stageCheckout.doCheckout(configs.checkoutStageConfig, pipelineContext)
