@@ -51,34 +51,37 @@ private def revertBuildImageStageChanges(Exception exception, BuildImageStageCon
     try {
         def imageToDelete = buildImageStageContext.image + ":" + buildImageStageContext.tag
         println("Try delete image '$imageToDelete'")
-
-        def deleteCreateImageCommand = "docker rmi $buildImageStageContext.image:$buildImageStageContext.tag"
-
-        def currentOs = OsUtils.getOS()
-        switch (currentOs) {
-            case Os.WINDOWS:
-                bat "$deleteCreateImageCommand"
-                break
-
-            case Os.UNIX:
-                sh "$deleteCreateImageCommand"
-                break
-
-            default:
-                throw new RuntimeException("No utility detected to execute gradle command '$deleteCreateImageCommand'")
-        }
+        osUtils.runCommand("docker rmi $buildImageStageContext.image:$buildImageStageContext.tag")
     } catch (Exception e) {
         println("Error while revert changes !! " + e.getMessage())
     }
     println("----END ErrorHandling <DockeriseStage> ----")
 }
 
-private deleteImagesIfNumberOfStoredImagesHasExpired(int maxImagesToStore, String imageName, String imageTag){
-    //String s   = "docker images --filter before=my-image:env1_27 | grep 'my-image' | grep 'env1_'";
-    String s   = "docker images --filter before=my-image:env1_27 | grep 'my-image'";
+private deleteImagesIfNumberOfStoredImagesHasExpired(int maxImagesToStore, String imageName, String imageTagPrefix, String imageTag) {
+    def command = getCommandToGetDockerImages(imageName, imageTag, imageTagPrefix)
+    def output = osUtils.runCommandReturningOutput(command)
 
- //   String s   = "docker images";
+    println(output)
+}
 
-    def gitCommit = bat(returnStdout: true, script: s).trim()
-    println(gitCommit)
+private String getCommandToGetDockerImages(String imageName, String imageTag, String imageTagPrefix) {
+    switch (OsUtils.getOS()) {
+        case Os.WINDOWS:
+            def command = "docker images --filter before=$imageName:$imageTag | find \"" + imageName + "\"";
+            if (imageTagPrefix != null && !imageTagPrefix.isEmpty()) {
+                command = command + "| find \"" + imageTagPrefix + "\"";
+            }
+            return command
+
+        case Os.UNIX:
+            def command = "docker images --filter before=$imageName:$imageTag | grep \"" + imageName + "\"";
+            if (imageTagPrefix != null && !imageTagPrefix.isEmpty()) {
+                command = command + "| grep \"" + imageTagPrefix + "\"";
+            }
+            return command
+
+        default:
+            throw new RuntimeException("No utility detected to execute gradle command '$deleteCreateImageCommand'")
+    }
 }
