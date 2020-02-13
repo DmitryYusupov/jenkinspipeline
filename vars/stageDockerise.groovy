@@ -107,16 +107,19 @@ private List<DockerImage> parseDockerImagesDataFromOutputString(String outputStr
 
     def splited = outputStr.split("\n")
     for (int i = 0; i < splited.length; i++) {
-        println("LLLLLLLLLL")
         def imageInfoStr = splited[i].trim();
         if (imageInfoStr.startsWith(imageName)) {
 
             def dockerImage = new DockerImage()
             dockerImage.name = imageName
             imageInfoStr = imageInfoStr.replaceFirst(imageName, "")
+            println("'" + imageInfoStr + "'")
+
             Matcher matcher = pattern.matcher(imageInfoStr)
 
+
             if (matcher.find() && matcher.groupCount() == 6) {
+
                 dockerImage.tag = matcher.group(2)
                 dockerImage.id = matcher.group(4)
             }
