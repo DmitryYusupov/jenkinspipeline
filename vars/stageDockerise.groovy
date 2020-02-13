@@ -71,6 +71,7 @@ private deleteImagesIfNumberOfStoredImagesHasExpired(int maxImagesToStore, Strin
         println("AAAAAAAAAA")
         images = Collections.reverse(images)
         println("BBBBBBBBB")
+        println(images)
         deleteImageIfNeed(images, maxImagesToStore)
     }
     println("-----------END. Dockerise. Clean old images-----------------")
