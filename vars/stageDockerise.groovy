@@ -68,7 +68,7 @@ private deleteImagesIfNumberOfStoredImagesHasExpired(int maxImagesToStore, Strin
     def images = parseDockerImagesDataFromOutputString(output, imageName)
 
     for (DockerImage img : images) {
-        println(img)
+        println(img.toString())
     }
 }
 
@@ -113,9 +113,7 @@ private List<DockerImage> parseDockerImagesDataFromOutputString(String outputStr
 
             Matcher matcher = pattern.matcher(imageInfoStr)
 
-
             if (matcher.find() && matcher.groupCount() == 6) {
-                println("AAAAAAAAAAAAAAAA")
                 dockerImage.tag = matcher.group(2)
                 dockerImage.id = matcher.group(4)
             }
