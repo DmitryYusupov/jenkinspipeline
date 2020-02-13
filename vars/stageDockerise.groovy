@@ -1,5 +1,4 @@
 import pipeline.stages.common.stage.PipelineContext
-import pipeline.stages.dockerise.classes.DockerImage
 import pipeline.stages.dockerise.config.BuildImageConfig
 import pipeline.stages.dockerise.config.DockeriseStageConfig
 import pipeline.stages.dockerise.context.BuildImageStageContext
@@ -94,11 +93,30 @@ private String getCommandToGetDockerImages(String imageName, String imageTag, St
 }
 
 
+class DockerImage {
+    String name
+    String tag
+    String id
+
+    @Override
+    public String toString() {
+        return "DockerImage{" +
+                "name='" + name + '\'' +
+                ", tag='" + tag + '\'' +
+                ", id='" + id + '\'' +
+                '}';
+    }
+
+    boolean isImageValid() {
+        return (name != null && !name.isEmpty())  && (tag != null && !tag.isEmpty()) && (id != null && !id.isEmpty());
+
+    }
+}
 
 private List<DockerImage> parseDockerImagesDataFromOutputString(String outputStr, String imageName) {
     List<DockerImage> result = new ArrayList<>()
 
-    def regExp = "(\\S+)(\\w+)(\\S+)(\\w+)(\\S+)(.+)"
+    def regExp = "(\\s+)(\\w+)(\\s+)(\\w+)"
     Pattern pattern = Pattern.compile(regExp)
 
     def splited = outputStr.split("\n")
@@ -113,7 +131,7 @@ private List<DockerImage> parseDockerImagesDataFromOutputString(String outputStr
 
             Matcher matcher = pattern.matcher(imageInfoStr)
 
-            if (matcher.find() && matcher.groupCount() == 6) {
+            if (matcher.find() && matcher.groupCount() == 4) {
                 dockerImage.tag = matcher.group(2)
                 dockerImage.id = matcher.group(4)
             }

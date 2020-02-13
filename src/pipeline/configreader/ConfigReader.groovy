@@ -22,14 +22,16 @@ class ConfigReader {
         /*println("assa")*/
       //  println()
 
-        def regExp = "(\\S+)(\\w+)(\\S+)(\\w+)(\\S+)(.+)"
+        def regExp = "(\\s+)(\\w+)(\\s+)(\\w+)"
         Pattern pattern = Pattern.compile(regExp)
         String s = "                                                    env1_27                    270f8030ea54        45 hours ago        291MB"
         Matcher matcher = pattern.matcher(s)
 
 
-        if (matcher.find() && matcher.groupCount() == 6) {
-
+        if (matcher.find() && matcher.groupCount() == 4) {
+            for(int i=1;i<=matcher.groupCount();i++){
+                println("'" + matcher.group(i) +"'")
+            }
         }
     }
 
