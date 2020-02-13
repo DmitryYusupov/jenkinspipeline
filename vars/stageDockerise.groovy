@@ -102,7 +102,7 @@ private String getCommandToGetDockerImages(String imageName, String imageTag, St
 private List<DockerImage> parseDockerImagesDataFromOutputString(String outputStr, String imageName) {
     List<DockerImage> result = new ArrayList<>()
 
-  /*  def regExp = "(\\S+)(\\w+)(\\S+)(\\w+)(\\S+)(.+)"
+    def regExp = "(\\S+)(\\w+)(\\S+)(\\w+)(\\S+)(.+)"
     Pattern pattern = Pattern.compile(regExp)
 
     def splited = outputStr.split("\n")
@@ -124,7 +124,7 @@ private List<DockerImage> parseDockerImagesDataFromOutputString(String outputStr
             result.add(dockerImage)
         }
     }
-*/
+
     return result
 }
 
