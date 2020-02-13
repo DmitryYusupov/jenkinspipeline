@@ -1,6 +1,7 @@
 package pipeline.configreader
 
 import org.w3c.dom.Element
+import pipeline.stages.dockerise.config.AccessConfig
 import pipeline.stages.dockerise.config.BuildImageConfig
 import pipeline.stages.dockerise.config.DockeriseStageConfig
 
@@ -26,7 +27,10 @@ final class DockeriseStageConfigReader {
                 def configName = config.getNodeName()
                 switch (configName) {
                     case "buildImageConfig":
-                        result.buildImageConfig = parseBuildImageConfig((Element)config)
+                        result.buildImageConfig = parseBuildImageConfig((Element) config)
+                        break
+                    case "accessConfig":
+                        result.accessConfig = parseAccessConfig((Element) config)
                         break
                 }
             }
@@ -40,6 +44,14 @@ final class DockeriseStageConfigReader {
         result.dockerFileDir = getOnlyElementTextContent(element, "dockerFileDir")
         result.imageName = getOnlyElementTextContent(element, "imageName")
         result.tagPrefix = getOnlyElementTextContent(element, "tagPrefix")
+
+        return result
+    }
+
+    private static AccessConfig parseAccessConfig(Element element) {
+        def result = new AccessConfig()
+        result.login = getOnlyElementTextContent(element, "login")
+        result.dokcerRegistryUrl = getOnlyElementTextContent(element, "dokcerRegistryUrl")
 
         return result
     }

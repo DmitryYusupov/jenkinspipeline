@@ -1,4 +1,5 @@
 import pipeline.stages.common.stage.PipelineContext
+import pipeline.stages.dockerise.config.AccessConfig
 import pipeline.stages.dockerise.config.BuildImageConfig
 import pipeline.stages.dockerise.config.DockeriseStageConfig
 import pipeline.stages.dockerise.context.BuildImageStageContext
@@ -17,6 +18,9 @@ import java.util.regex.Pattern
  * @param pipelineContext Context which stores info about pipeline progress
  */
 void doContainerisation(DockeriseStageConfig dockeriseConfig, PipelineContext pipelineContext) {
+
+    loginToRegistry()
+
     println("============================BEGIN $dockeriseConfig.label ============================")
     stage(dockeriseConfig.label) {
         def image = buildImage(dockeriseConfig.buildImageConfig, pipelineContext)
@@ -236,5 +240,12 @@ private void deleteImageIfNeed(List<DockerImage> images, int threshold) {
         }
         println("-----------END. Dockerise. Exec delete old images.-----------------")
     }
+}
+
+private boolean loginToRegistry(AccessConfig accessConfig) {
+    println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+    println(env.DOCKER_USER_DEV)
+
+    return true
 }
 

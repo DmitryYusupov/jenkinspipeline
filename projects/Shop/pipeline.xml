@@ -38,7 +38,10 @@
             <label>Dockerise</label>
             <numberOfImagesToStore>3</numberOfImagesToStore>
             <configs>
+
                 <accessConfig>
+                    <login>DOCKER_USER_DEV</login>
+                    <dokcerRegistryUrl>ssss</dokcerRegistryUrl>
                 </accessConfig>
 
                 <buildImageConfig>
@@ -48,7 +51,6 @@
                 </buildImageConfig>
 
                 <pushImageConfig>
-
                 </pushImageConfig>
             </configs>
         </stage>

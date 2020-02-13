@@ -6,4 +6,5 @@ class DockeriseStageConfig extends BaseStageConfig {
     int numberOfImagesToStore;
     BuildImageConfig buildImageConfig
     PushImageConfig pushImageConfig
+    AccessConfig accessConfig
 }
