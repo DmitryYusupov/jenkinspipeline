@@ -64,11 +64,11 @@ private def revertBuildImageStageChanges(Exception exception, BuildImageStageCon
 private deleteImagesIfNumberOfStoredImagesHasExpired(int maxImagesToStore, String imageName, String imageTag, String imageTagPrefix) {
     def command = getCommandToGetDockerImages(imageName, imageTag, imageTagPrefix)
     def output = osUtils.runCommandReturningOutput(command)
-    def images = parseDockerImagesDataFromOutputString(output, imageName)
+    List<DockerImage> images = parseDockerImagesDataFromOutputString(output, imageName)
 
     if (!images.isEmpty()) {
         println("AAAAAAAAAA")
-        images = Collections.reverse(images);
+        images = Collections.reverse(images)
         println("BBBBBBBBB")
         deleteImageIfNeed(images, maxImagesToStore)
     }
@@ -151,7 +151,7 @@ private void deleteImageIfNeed(List<DockerImage> images, int threshold) {
     println(images.size())
     println(threshold)
 
-    if (images.size() > threshold) {
+  /*  if (images.size() > threshold) {
         println("-----------BEGIN. Dockerise. Clean old images-----------------")
         int numberOfImagesToDelete = images.size() - threshold;
         for (int i = 0; i < numberOfImagesToDelete; i++) {
@@ -166,6 +166,6 @@ private void deleteImageIfNeed(List<DockerImage> images, int threshold) {
             }
         }
         println("-----------END. Dockerise. Clean old images.-----------------")
-    }
+    }*/
 }
 
