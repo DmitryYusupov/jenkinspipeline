@@ -67,7 +67,9 @@ private deleteImagesIfNumberOfStoredImagesHasExpired(int maxImagesToStore, Strin
     def images = parseDockerImagesDataFromOutputString(output, imageName)
 
     if (!images.isEmpty()) {
+        println("AAAAAAAAAA")
         images = Collections.reverse(images);
+        println("BBBBBBBBB")
         deleteImageIfNeed(images, maxImagesToStore)
     }
 
