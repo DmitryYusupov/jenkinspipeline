@@ -246,6 +246,7 @@ private boolean loginToRegistry(AccessConfig accessConfig) {
     println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
     println(accessConfig.login)
     println(accessConfig.dokcerRegistryUrl)
+    println(env.BUILD_ID)
     println(env.DOCKER_USER_DEV)
     println("BBBBBBBBBBBBBBBBBBBBBBBBBBBBB")
     return true
