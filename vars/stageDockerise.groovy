@@ -146,7 +146,7 @@ private List<DockerImage> parseDockerImagesDataFromOutputString(String outputStr
 }
 
 private void deleteImageIfNeed(List<DockerImage> images, int threshold) {
-    if (images.size() > threshold) {
+    if (images.size() >= threshold) {
         println("-----------BEGIN. Dockerise. Exec delete old images-----------------")
         int numberOfImagesToDelete = images.size() - threshold;
         for (int i = 0; i <= numberOfImagesToDelete; i++) {
