@@ -19,7 +19,7 @@ import java.util.regex.Pattern
  */
 void doContainerisation(DockeriseStageConfig dockeriseConfig, PipelineContext pipelineContext) {
 
-    loginToRegistry()
+   // loginToRegistry()
 
     println("============================BEGIN $dockeriseConfig.label ============================")
     stage(dockeriseConfig.label) {
