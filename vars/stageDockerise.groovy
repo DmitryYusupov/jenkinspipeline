@@ -62,6 +62,7 @@ private def revertBuildImageStageChanges(Exception exception, BuildImageStageCon
 }
 
 private deleteImagesIfNumberOfStoredImagesHasExpired(int maxImagesToStore, String imageName, String imageTag, String imageTagPrefix) {
+    println("-----------BEGIN. Dockerise. Clean old images-----------------")
     def command = getCommandToGetDockerImages(imageName, imageTag, imageTagPrefix)
     def output = osUtils.runCommandReturningOutput(command)
     List<DockerImage> images = parseDockerImagesDataFromOutputString(output, imageName)
@@ -72,7 +73,7 @@ private deleteImagesIfNumberOfStoredImagesHasExpired(int maxImagesToStore, Strin
         println("BBBBBBBBB")
         deleteImageIfNeed(images, maxImagesToStore)
     }
-
+    println("-----------END. Dockerise. Clean old images-----------------")
 }
 
 private String getCommandToGetDockerImages(String imageName, String imageTag, String imageTagPrefix) {
@@ -152,7 +153,7 @@ private void deleteImageIfNeed(List<DockerImage> images, int threshold) {
     println(threshold)
 
   /*  if (images.size() > threshold) {
-        println("-----------BEGIN. Dockerise. Clean old images-----------------")
+        println("-----------BEGIN. Dockerise. Exec delete old images-----------------")
         int numberOfImagesToDelete = images.size() - threshold;
         for (int i = 0; i < numberOfImagesToDelete; i++) {
             def image = images.get(i)
@@ -165,7 +166,7 @@ private void deleteImageIfNeed(List<DockerImage> images, int threshold) {
                 println("WARNING WARNING Image '$imageInfo' WAS NOT DELETED!")
             }
         }
-        println("-----------END. Dockerise. Clean old images.-----------------")
+        println("-----------END. Dockerise. Exec delete old images.-----------------")
     }*/
 }
 
