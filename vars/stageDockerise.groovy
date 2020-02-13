@@ -68,9 +68,9 @@ private deleteImagesIfNumberOfStoredImagesHasExpired(int maxImagesToStore, Strin
     def images = parseDockerImagesDataFromOutputString(output, imageName)
 
     println("---------")
-    for (DockerImage img : images) {
+   /* for (DockerImage img : images) {
         println(img)
-    }
+    }*/
 }
 
 private String getCommandToGetDockerImages(String imageName, String imageTag, String imageTagPrefix) {
