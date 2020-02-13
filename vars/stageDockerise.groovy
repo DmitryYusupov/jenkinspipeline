@@ -116,14 +116,13 @@ class DockerImage {
 
 private List<DockerImage> parseDockerImagesDataFromOutputString(String outputStr, String imageName) {
     List<DockerImage> result = new ArrayList<>()
-    def splited = outputStr.split("\n")
-
 
     def regExp = "(\\S+)(\\w+)(\\S+)(\\w+)(\\S+)(.+)"
     Pattern pattern = Pattern.compile(regExp)
 
-
+    def splited = outputStr.split("\n")
     for (int i = 0; i < splited.length; i++) {
+        println("LLLLLLLLLL")
         def imageInfoStr = splited[i].trim();
         if (imageInfoStr.startsWith(imageName)) {
 
