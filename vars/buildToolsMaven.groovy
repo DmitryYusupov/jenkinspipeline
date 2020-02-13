@@ -1,10 +1,10 @@
 import pipeline.stages.common.commands.MavenCommand
 
-static void call(MavenCommand mavenCommand) {
-    osUtils.runCommand(mavenCommand.command + mavenCommand.utility)
+void call(MavenCommand mavenCommand) {
+    osUtils.runCommand(mavenCommand.utility + " " + mavenCommand.command)
 }
 
-static void call(Collection<MavenCommand> commands) {
+void call(Collection<MavenCommand> commands) {
     for (MavenCommand command : commands) {
         call(command)
     }
