@@ -61,6 +61,7 @@ private def revertBuildImageStageChanges(Exception exception, BuildImageStageCon
 private deleteImagesIfNumberOfStoredImagesHasExpired(int maxImagesToStore, String imageName, String imageTag, String imageTagPrefix) {
     def command = getCommandToGetDockerImages(imageName, imageTag, imageTagPrefix)
     def output = osUtils.runCommandReturningOutput(command)
+    def images = parseDockerImagesDataFromOutputString(output, imageName)
 
     println(output)
 }
@@ -84,4 +85,22 @@ private String getCommandToGetDockerImages(String imageName, String imageTag, St
         default:
             throw new RuntimeException("No utility detected to execute gradle command '$deleteCreateImageCommand'")
     }
+}
+
+class DockerImage {
+    String name
+    String tag
+}
+
+private List<DockerImage> parseDockerImagesDataFromOutputString(String outputStr, String imageName) {
+    List<DockerImage> result = new ArrayList<>()
+    def splited = outputStr.split("\n")
+
+    for (int i = 0; i < splited.length; i++) {
+        def imageInfoStr = splited[i]
+        if (imageInfoStr.startsWith(imageName)) {
+            println(imageInfoStr)
+        }
+    }
+    return result
 }
