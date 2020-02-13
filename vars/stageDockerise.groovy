@@ -1,4 +1,5 @@
 import pipeline.stages.common.stage.PipelineContext
+import pipeline.stages.dockerise.classes.DockerImage
 import pipeline.stages.dockerise.config.BuildImageConfig
 import pipeline.stages.dockerise.config.DockeriseStageConfig
 import pipeline.stages.dockerise.context.BuildImageStageContext
@@ -93,26 +94,7 @@ private String getCommandToGetDockerImages(String imageName, String imageTag, St
     }
 }
 
-class DockerImage {
-    String name
-    String tag
-    String id
 
-    @Override
-    public String toString() {
-        return "DockerImage{" +
-                "name='" + name + '\'' +
-                ", tag='" + tag + '\'' +
-                ", id='" + id + '\'' +
-                '}';
-    }
-
-    boolean isDockerImageValid() {
-        return (name != null && !name.isEmpty())
-                && (tag != null && !tag.isEmpty())
-                && (id != null && !id.isEmpty())
-    }
-}
 
 private List<DockerImage> parseDockerImagesDataFromOutputString(String outputStr, String imageName) {
     List<DockerImage> result = new ArrayList<>()
