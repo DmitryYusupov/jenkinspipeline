@@ -244,8 +244,10 @@ private void deleteImageIfNeed(List<DockerImage> images, int threshold) {
 
 private boolean loginToRegistry(AccessConfig accessConfig) {
     println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+    println(accessConfig.login)
+    println(accessConfig.dokcerRegistryUrl)
     println(env.DOCKER_USER_DEV)
-
+    println("BBBBBBBBBBBBBBBBBBBBBBBBBBBBB")
     return true
 }
 
