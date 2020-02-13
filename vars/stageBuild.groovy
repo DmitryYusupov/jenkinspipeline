@@ -9,11 +9,9 @@ def doBuild(BuildStageConfig stageConfig, PipelineContext context) {
         if (stageConfig.hasCommands()) {
 
             for (BaseCommand command: stageConfig.getCommands()){
-
                 if(command instanceof GradleCommand){
                     buildToolsGradle.call(command as GradleCommand)
                 }
-
             }
         } else {
             throw new RuntimeException("No commands");

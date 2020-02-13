@@ -10,7 +10,7 @@ String runCommandReturningOutput(String command) {
             return sh(returnStdout: true, script: command).trim()
 
         default:
-            throw new RuntimeException("No utility detected to execute gradle command '$deleteCreateImageCommand'")
+            throw new RuntimeException("No utility detected to execute command '$command'")
     }
 }
 
@@ -23,7 +23,7 @@ int runCommandReturningStatus(String command) {
             return sh(returnStatus: true, script: command)
 
         default:
-            throw new RuntimeException("No utility detected to execute gradle command '$deleteCreateImageCommand'")
+            throw new RuntimeException("No utility detected to execute command '$command'")
     }
 }
 
@@ -36,7 +36,7 @@ boolean runCommandReturningStatusAsBool(String command) {
             return sh(returnStatus: true, script: command) == 0
 
         default:
-            throw new RuntimeException("No utility detected to execute gradle command '$deleteCreateImageCommand'")
+            throw new RuntimeException("No utility detected to execute command '$command'")
     }
 }
 
@@ -52,7 +52,7 @@ def runCommand(String command) {
             break
 
         default:
-            throw new RuntimeException("No utility detected to execute gradle command '$deleteCreateImageCommand'")
+            throw new RuntimeException("No utility detected to execute command '$command'")
     }
 }
 
