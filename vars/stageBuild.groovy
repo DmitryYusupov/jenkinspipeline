@@ -8,13 +8,8 @@ def doBuild(BuildStageConfig stageConfig, PipelineContext context) {
 
     stage(stageConfig.label) {
         if (stageConfig.hasCommands()) {
-
-            println("AAA")
-
             for (BaseCommand command: stageConfig.getCommands()){
-                println("BB")
                 if(command instanceof GradleCommand){
-                    println("CC")
                     buildToolsGradle.call(command as GradleCommand)
                 }
             }
