@@ -74,7 +74,7 @@ private def revertBuildImageStageChanges(Exception exception, BuildImageStageCon
 }
 
 private deleteImagesIfNumberOfStoredImagesHasExpired(int maxImagesToStore, String imageName, String imageTag){
-    String s   = "docker images --filter \"before=my-image:env1_27\" | grep 'my-image' | grep 'env1_'";
+    String s   = "docker images --filter before=my-image:env1_27";
 
  //   String s   = "docker images";
 
