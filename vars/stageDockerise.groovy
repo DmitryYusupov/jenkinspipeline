@@ -69,7 +69,7 @@ private deleteImagesIfNumberOfStoredImagesHasExpired(int maxImagesToStore, Strin
 
     if (!images.isEmpty()) {
         println("AAAAAAAAAA")
-        images = Collections.reverse(images)
+        //images = Collections.reverse(images)
         println("BBBBBBBBB")
         println(images)
         deleteImageIfNeed(images, maxImagesToStore)
