@@ -58,7 +58,7 @@ private def revertBuildImageStageChanges(Exception exception, BuildImageStageCon
     println("----END ErrorHandling <DockeriseStage> ----")
 }
 
-private deleteImagesIfNumberOfStoredImagesHasExpired(int maxImagesToStore, String imageName, String imageTagPrefix, String imageTag) {
+private deleteImagesIfNumberOfStoredImagesHasExpired(int maxImagesToStore, String imageName, String imageTag, String imageTagPrefix) {
     def command = getCommandToGetDockerImages(imageName, imageTag, imageTagPrefix)
     def output = osUtils.runCommandReturningOutput(command)
 
