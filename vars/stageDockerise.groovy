@@ -1,5 +1,5 @@
 import pipeline.stages.common.stage.PipelineContext
-//import pipeline.stages.dockerise.classes.DockerImage
+import pipeline.stages.dockerise.classes.DockerImage
 import pipeline.stages.dockerise.config.BuildImageConfig
 import pipeline.stages.dockerise.config.DockeriseStageConfig
 import pipeline.stages.dockerise.context.BuildImageStageContext
