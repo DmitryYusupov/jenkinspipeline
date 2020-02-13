@@ -42,6 +42,7 @@ boolean runCommandReturningStatusAsBool(String command) {
 
 
 def runCommand(String command) {
+    println(command)
     switch (OsUtils.getOS()) {
         case Os.WINDOWS:
             bat "$command"
