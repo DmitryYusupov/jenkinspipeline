@@ -7,6 +7,8 @@ import pipeline.config.PipelineConfig
 import pipeline.stages.Stage
 
 import java.nio.file.FileSystems
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 import static utils.XmlDomUtils.getDocument
 import static utils.XmlDomUtils.getOnlyElementFromDocument
@@ -15,10 +17,20 @@ import static utils.XmlDomUtils.getOnlyElementTextContent
 class ConfigReader {
 
     public static void main(String[] args) {
-        def rr = parsePipelineConfig("C:\\Users\\Dmitry_Yusupov\\Desktop\\Jenkins_pipeline\\jenkinspipeline\\projects\\Shop\\pipeline.xml");
-        def ff = FileSystems.getDefault()
+        //def rr = parsePipelineConfig("C:\\Users\\Dmitry_Yusupov\\Desktop\\Jenkins_pipeline\\jenkinspipeline\\projects\\Shop\\pipeline.xml");
+       // def ff = FileSystems.getDefault()
         /*println("assa")*/
-        println()
+      //  println()
+
+        def regExp = "(\\S+)(\\w+)(\\S+)(\\w+)(\\S+)(.+)"
+        Pattern pattern = Pattern.compile(regExp)
+        String s = "                                                    env1_27                    270f8030ea54        45 hours ago        291MB"
+        Matcher matcher = pattern.matcher(s)
+
+
+        if (matcher.find() && matcher.groupCount() == 6) {
+
+        }
     }
 
     static PipelineConfig parsePipelineConfig(String xmlFilePath) {
