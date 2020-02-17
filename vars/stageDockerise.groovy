@@ -243,8 +243,6 @@ private void deleteImageIfNeed(List<DockerImage> images, int threshold) {
 }
 
 private boolean loginToRegistry(AccessConfig accessConfig) {
-    println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-
     withCredentials([usernamePassword(credentialsId: 'DOCKER_USER_DEV', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
         // available as an env variable, but will be masked if you try to print it out any which way
         // note: single quotes prevent Groovy interpolation; expansion is by Bourne Shell, which is what you want
@@ -253,12 +251,6 @@ private boolean loginToRegistry(AccessConfig accessConfig) {
         // or inside double quotes for string interpolation
         echo "username is $USERNAME"
     }
-
-    println(accessConfig.login)
-    println(accessConfig.dokcerRegistryUrl)
-    println(env.BUILD_ID)
-    println(env.DOCKER_USER_DEV)
-    println("BBBBBBBBBBBBBBBBBBBBBBBBBBBBB")
     return true
 }
 
