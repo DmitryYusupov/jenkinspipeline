@@ -34,6 +34,10 @@ void doContainerisation(DockeriseStageConfig dockeriseConfig, PipelineContext pi
                 dockeriseConfig.buildImageConfig.tagPrefix
         )
 
+        def accessConfig = dockeriseConfig.accessConfig
+        if (accessConfig!=null){
+            pushToDockerRegistry(accessConfig, dockeriseConfig.buildImageConfig.imageName, tagName)
+        }
     }
     println("============================END $dockeriseConfig.label ============================")
 }
@@ -242,15 +246,25 @@ private void deleteImageIfNeed(List<DockerImage> images, int threshold) {
     }
 }
 
-private boolean loginToRegistry(AccessConfig accessConfig) {
-    withCredentials([usernamePassword(credentialsId: 'DOCKER_USER_DEV', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+private boolean pushToDockerRegistry(AccessConfig accessConfig, String imageName, String imageTag) {
+   // withCredentials([usernamePassword(credentialsId: "'" + accessConfig.login + "'", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
         // available as an env variable, but will be masked if you try to print it out any which way
         // note: single quotes prevent Groovy interpolation; expansion is by Bourne Shell, which is what you want
         // also available as a Groovy variable
 
         // or inside double quotes for string interpolation
-        echo "username is $USERNAME"
+     //   echo "username is $USERNAME"
+
+    //}
+    //docker login tools.adidas-group.com:5000 -u username -p password
+    println("-----------BEGIN. Dockerise. Push image to registry-----------------")
+    docker.withRegistry('registry.hub.docker.com/shop', "'" + accessConfig.login + "'") {
+        //app.push("${env.BUILD_NUMBER}")
+        //app.push("latest")
+        docker.image("$imageName:$imageTag").push()
     }
-    return true
+    println("-----------BEGIN. Dockerise. Push image to registry-----------------")
 }
+
+
 
