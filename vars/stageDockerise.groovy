@@ -33,7 +33,10 @@ void doContainerisation(DockeriseStageConfig dockeriseConfig, PipelineContext pi
 
         def accessConfig = dockeriseConfig.accessConfig
         if (accessConfig != null){
-            pushToDockerRegistry(accessConfig, dockeriseConfig.buildImageConfig.imageName, tagName)
+            def dockerImage = new DockerImage()
+            dockerImage.name = dockeriseConfig.buildImageConfig.imageName
+            dockerImage.tag = tagName
+            pushToDockerRegistry(accessConfig, dockerImage)
         }
     }
     println("============================END $dockeriseConfig.label ============================")
@@ -244,7 +247,7 @@ private void deleteImageIfNeed(List<DockerImage> images, int threshold) {
 }
 // Docker registry creation
 // https://habr.com/ru/post/320884/
-private void pushToDockerRegistry(AccessConfig accessConfig, String imageName, String imageTag) {
+private void pushToDockerRegistry(AccessConfig accessConfig, DockerImage dockerImage) {
    // withCredentials([usernamePassword(credentialsId: "'" + accessConfig.login + "'", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
         // available as an env variable, but will be masked if you try to print it out any which way
         // note: single quotes prevent Groovy interpolation; expansion is by Bourne Shell, which is what you want
