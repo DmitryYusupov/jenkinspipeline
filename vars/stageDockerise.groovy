@@ -90,22 +90,18 @@ void handleException(PipelineContext pipelineContext) {
 
     def exception = pipelineContext.exception
 
-    def revertActions = new ArrayList<>();
+    def revertActions = new ArrayList<>()
     revertActions.add({ ctx ->
         println("Error on dockerise stage")
         ctx.exception.printStackTrace();
-    });
+    })
 
     if (exception instanceof DockerBuildImageException) {
         //print error
-        revertActions.add({ ctx ->
-            println("Error while try to build image!")
-        })
+        revertActions.add({ ctx -> println("Error while try to build image!") })
     } else if (exception instanceof DockerImagePushException) {
         //print error
-        revertActions.add({ ctx ->
-            println("Error while try to push image to repo!")
-        })
+        revertActions.add({ ctx -> println("Error while try to push image to repo!") })
         //print delete created image
         revertActions.add({ ctx ->
             if (ctx.dockeriseStageContext.buildStageContext != null) {
@@ -115,9 +111,8 @@ void handleException(PipelineContext pipelineContext) {
     } else if (exception instanceof DockerDeleteOldImagesException) {
         println("33333333333333333333")
         //print error
-        revertActions.add({ ctx ->
-            println("Error while try to delete old images from local repo!")
-        })
+        revertActions.add({ ctx -> println("Error while try to delete old images from local repo!") })
+        println("44444444444444444")
         //print delete created image
         revertActions.add({ ctx ->
             if (ctx.dockeriseStageContext.buildStageContext != null) {
