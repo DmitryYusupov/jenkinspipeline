@@ -126,7 +126,7 @@ void handleException(PipelineContext pipelineContext) {
         })
     }
 
-    revertActions.forEach { a -> a.accept(pipelineContext) }
+    revertActions.forEach { a -> a(pipelineContext) }
 }
 
 /**
