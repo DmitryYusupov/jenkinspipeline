@@ -18,9 +18,6 @@ import java.util.regex.Pattern
  * @param pipelineContext Context which stores info about pipeline progress
  */
 void doContainerisation(DockeriseStageConfig dockeriseConfig, PipelineContext pipelineContext) {
-
-   // loginToRegistry()
-
     println("============================BEGIN $dockeriseConfig.label ============================")
     stage(dockeriseConfig.label) {
         def image = buildImage(dockeriseConfig.buildImageConfig, pipelineContext)
@@ -35,7 +32,7 @@ void doContainerisation(DockeriseStageConfig dockeriseConfig, PipelineContext pi
         )
 
         def accessConfig = dockeriseConfig.accessConfig
-        if (accessConfig!=null){
+        if (accessConfig != null){
             pushToDockerRegistry(accessConfig, dockeriseConfig.buildImageConfig.imageName, tagName)
         }
     }
@@ -245,7 +242,8 @@ private void deleteImageIfNeed(List<DockerImage> images, int threshold) {
         println("-----------END. Dockerise. Exec delete old images.-----------------")
     }
 }
-
+// Docker registry creation
+// https://habr.com/ru/post/320884/
 private boolean pushToDockerRegistry(AccessConfig accessConfig, String imageName, String imageTag) {
    // withCredentials([usernamePassword(credentialsId: "'" + accessConfig.login + "'", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
         // available as an env variable, but will be masked if you try to print it out any which way
@@ -258,6 +256,7 @@ private boolean pushToDockerRegistry(AccessConfig accessConfig, String imageName
     //}
     //docker login tools.adidas-group.com:5000 -u username -p password
     println("-----------BEGIN. Dockerise. Push image to registry-----------------")
+    println(accessConfig.login)
     docker.withRegistry('registry.hub.docker.com/shop', "'" + accessConfig.login + "'") {
         //app.push("${env.BUILD_NUMBER}")
         //app.push("latest")
