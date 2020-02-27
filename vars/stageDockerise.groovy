@@ -272,30 +272,11 @@ private void deleteImageIfNeed(List<DockerImage> images, int threshold) {
 private void pushToDockerRegistry(AccessConfig accessConfig, DockerImage dockerImage) {
     try {
         println("-----------BEGIN. Dockerise. Push image to registry-----------------")
-        //  withCredentials([usernamePassword(credentialsId: "'" + accessConfig.login + "'", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-        //      println(USERNAME)
-        /*docker.withRegistry('registry.hub.docker.com/shop', "'" + USERNAME + "'") {
-            //app.push("${env.BUILD_NUMBER}")
-            //app.push("latest")
-            docker.image("$imageName:$imageTag").push()
-        }*/
-        //  println("-----------BEGIN. Dockerise. Push image to registry-----------------")
-        //}
-        //   }
-
 
         println("Try to push Image $dockerImage.name:$dockerImage.tag to $accessConfig.dockerRegistryUrl")
-        docker.withRegistry('https://registry.hub.docker.com', accessConfig.login) {
+        docker.withRegistry(accessConfig.dockerRegistryUrl, accessConfig.login) {
             docker.image("$dockerImage.name:$dockerImage.tag").push()
         }
-
-        /*
-        withCredentials([usernamePassword(credentialsId: accessConfig.login, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-            echo USERNAME
-            echo "username is $USERNAME"
-
-
-        }*/
 
         println("-----------BEGIN. Dockerise. Push image to registry-----------------")
     } catch (Exception e) {
