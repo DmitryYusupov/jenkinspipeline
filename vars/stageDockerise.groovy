@@ -10,7 +10,6 @@ import pipeline.stages.dockerise.exception.DockerImagePushException
 import utils.os.Os
 import utils.os.OsUtils
 
-import java.util.function.Consumer
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
