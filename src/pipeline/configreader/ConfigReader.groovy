@@ -89,9 +89,18 @@ class ConfigReader {
                    // revertBuildImageStageChanges(ctx.dockeriseStageContext.buildStageContext)
                 }
             })
+            println("55555")
         }
         println("SSSSSSSSSSSSSSSSSSSSSSSSS")
-        revertActions.forEach { a -> a(pipelineContext) }
+        int index = 0;
+        println(revertActions.size())
+        revertActions.forEach { a ->
+
+                a(pipelineContext)
+            println(++index)
+            println("a-a-a-a-a-")
+
+        }
     }
     static PipelineConfig parsePipelineConfig(String xmlFilePath) {
         def result = new PipelineConfig()
