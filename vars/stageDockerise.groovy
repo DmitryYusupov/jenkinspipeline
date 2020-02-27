@@ -287,7 +287,7 @@ private void deleteImageIfNeed(List<DockerImage> images, int threshold) {
             def image = images.get(i)
             def imageInfo = "$image.name:$image.tag $image.id"
             println("Try to delete image '$imageInfo'")
-            def isSuccessfullyDeleted = osUtils.runCommandReturningStatusAsBool("docker rmi $image.id")
+            def isSuccessfullyDeleted = osUtils.runCommandReturningStatusAsBool("docker rmi -f $image.id")
             if (isSuccessfullyDeleted) {
                 println("Image '$imageInfo' was successfully deleted")
             } else {
