@@ -9,6 +9,7 @@ import pipeline.stages.dockerise.exception.DockerDeleteOldImagesException
 import pipeline.stages.dockerise.exception.DockerImagePushException
 import utils.os.Os
 import utils.os.OsUtils
+import com.cloudbees.groovy.cps.NonCPS
 
 import java.util.regex.Matcher
 import java.util.regex.Pattern
@@ -86,6 +87,7 @@ private def buildImage(BuildImageConfig buildImageConfig, PipelineContext pipeli
  * @param exception
  * @param pipelineContext Context which stores info about pipeline progress
  */
+@NonCPS
 void handleException(PipelineContext pipelineContext) {
 
     def exception = pipelineContext.exception

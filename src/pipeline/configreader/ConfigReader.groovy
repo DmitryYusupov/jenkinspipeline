@@ -1,6 +1,6 @@
 package pipeline.configreader
 
-import com.cloudbees.groovy.cps.NonCPS
+
 import org.w3c.dom.Element
 import org.w3c.dom.NodeList
 import pipeline.config.GlobalPipelineConfigs
