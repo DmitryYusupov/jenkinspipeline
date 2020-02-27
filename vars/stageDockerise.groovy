@@ -87,12 +87,21 @@ private def buildImage(BuildImageConfig buildImageConfig, PipelineContext pipeli
  * @param pipelineContext Context which stores info about pipeline progress
  */
 void revertStageChanges(Exception exception, PipelineContext pipelineContext) {
-    if (pipelineContext.dockeriseStageContext != null) {
-        if (pipelineContext.dockeriseStageContext.buildStageContext != null) {
-            revertBuildImageStageChanges(exception, pipelineContext.dockeriseStageContext.buildStageContext)
-        }
+
+    if (exception instanceof DockerBuildImageException) {
+
+    } else if (exception instanceof DockerImagePushException) {
+
+    } else if (exception instanceof DockerDeleteOldImagesException) {
+
     }
+
+    if (pipelineContext.dockeriseStageContext.buildStageContext != null) {
+        revertBuildImageStageChanges(exception, pipelineContext.dockeriseStageContext.buildStageContext)
+    }
+
 }
+
 /**
  * Delete image if pipeline has finished with error
  *
@@ -279,7 +288,7 @@ private void pushToDockerRegistry(AccessConfig accessConfig, DockerImage dockerI
             echo USERNAME
             echo "username is $USERNAME"
 
-            docker.withRegistry('registry.hub.docker.com/shop', USERNAME) {
+            docker.withRegistry('registry.hub.docker.com/shop', "AA") {
                 docker.image("$dockerImage.name:$dockerImage.tag").push()
             }
         }
