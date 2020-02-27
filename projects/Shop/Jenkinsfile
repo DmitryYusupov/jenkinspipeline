@@ -29,10 +29,9 @@ node {
          //   stageDockerise.revertStageChanges(null, pipelineContext)
         }
     } catch (Exception e) {
+        currentBuild.result = 'FAILURE'
         pipelineContext.exception = e;
         exceptionHandler.handleException(pipelineContext)
-        e.printStackTrace()
-        currentBuild.result = 'FAILURE'
     }
 
 }
