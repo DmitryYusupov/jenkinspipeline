@@ -284,14 +284,17 @@ private void pushToDockerRegistry(AccessConfig accessConfig, DockerImage dockerI
         //   }
 
 
+        docker.withRegistry('https://registry.hub.docker.com/shop', accessConfig.login) {
+            docker.image("$dockerImage.name:$dockerImage.tag").push()
+        }
+
+        /*
         withCredentials([usernamePassword(credentialsId: accessConfig.login, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
             echo USERNAME
             echo "username is $USERNAME"
 
-            docker.withRegistry('registry.hub.docker.com/shop', "AA") {
-                docker.image("$dockerImage.name:$dockerImage.tag").push()
-            }
-        }
+
+        }*/
 
         println("-----------BEGIN. Dockerise. Push image to registry-----------------")
     } catch (Exception e) {
