@@ -10,6 +10,7 @@ import pipeline.stages.dockerise.exception.DockerImagePushException
 import utils.os.Os
 import utils.os.OsUtils
 
+import java.util.function.Consumer
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
@@ -86,20 +87,48 @@ private def buildImage(BuildImageConfig buildImageConfig, PipelineContext pipeli
  * @param exception
  * @param pipelineContext Context which stores info about pipeline progress
  */
-void revertStageChanges(Exception exception, PipelineContext pipelineContext) {
+void handleException(PipelineContext pipelineContext) {
+
+    def exception = pipelineContext.exception
+
+    List<Consumer<PipelineContext>> revertActions = new ArrayList<>();
+    revertActions.add({ ctx ->
+        println("Error on dockerise stage")
+        ctx.exception.printStackTrace();
+    });
 
     if (exception instanceof DockerBuildImageException) {
-
+        //print error
+        revertActions.add({ ctx ->
+            println("Error while try to build image!")
+        })
     } else if (exception instanceof DockerImagePushException) {
-
+        //print error
+        revertActions.add({ ctx ->
+            println("Error while try to push image to repo!")
+        })
+        //print delete created image
+        revertActions.add({ ctx ->
+            if (ctx.dockeriseStageContext.buildStageContext != null) {
+                revertBuildImageStageChanges(pipelineContext.dockeriseStageContext.buildStageContext)
+            }
+        })
     } else if (exception instanceof DockerDeleteOldImagesException) {
-
+        //print error
+        revertActions.add({ ctx ->
+            println("Error while try to delete old images from local repo!")
+        })
+        //print delete created image
+        revertActions.add({ ctx ->
+            if (ctx.dockeriseStageContext.buildStageContext != null) {
+                revertBuildImageStageChanges(pipelineContext.dockeriseStageContext.buildStageContext)
+            }
+        })
     }
 
-    if (pipelineContext.dockeriseStageContext.buildStageContext != null) {
-        revertBuildImageStageChanges(exception, pipelineContext.dockeriseStageContext.buildStageContext)
+    for (Consumer<PipelineContext> action : revertActions) {
+        action.accept(pipelineContext);
     }
-
 }
 
 /**
@@ -108,7 +137,7 @@ void revertStageChanges(Exception exception, PipelineContext pipelineContext) {
  * @param exception
  * @param buildImageStageContext Context which stores information about docker stage
  */
-private void revertBuildImageStageChanges(Exception exception, BuildImageStageContext buildImageStageContext) {
+private void revertBuildImageStageChanges(BuildImageStageContext buildImageStageContext) {
     println("----BEGIN ErrorHandling <DockeriseStage> ----")
     try {
         def imageToDelete = buildImageStageContext.image + ":" + buildImageStageContext.tag

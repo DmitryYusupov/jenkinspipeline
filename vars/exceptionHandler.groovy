@@ -5,6 +5,6 @@ def handleException(Exception e, PipelineContext context) {
     println("Pipeline Exception " + e.toString())
 
     if (e instanceof DockeriseStageException) {
-        stageDockerise.revertStageChanges(e, context)
+        stageDockerise.handleException(context)
     }
 }
