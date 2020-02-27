@@ -4,7 +4,9 @@ import pipeline.stages.dockerise.config.BuildImageConfig
 import pipeline.stages.dockerise.config.DockeriseStageConfig
 import pipeline.stages.dockerise.context.BuildImageStageContext
 import pipeline.stages.dockerise.context.DockeriseStageContext
-
+import pipeline.stages.dockerise.exception.DockerBuildImageException
+import pipeline.stages.dockerise.exception.DockerDeleteOldImagesException
+import pipeline.stages.dockerise.exception.DockerImagePushException
 import utils.os.Os
 import utils.os.OsUtils
 
@@ -20,9 +22,11 @@ import java.util.regex.Pattern
 void doContainerisation(DockeriseStageConfig dockeriseConfig, PipelineContext pipelineContext) {
     println("============================BEGIN $dockeriseConfig.label ============================")
     stage(dockeriseConfig.label) {
+        //step 1 - build image
         def image = buildImage(dockeriseConfig.buildImageConfig, pipelineContext)
         println("Image was build " + image)
 
+        //step 2 - delete old images
         String tagName = dockeriseConfig.buildImageConfig.tagPrefix + "_" + env.BUILD_ID
         deleteImagesIfNumberOfStoredImagesHasExpired(
                 dockeriseConfig.numberOfImagesToStore,
@@ -32,7 +36,8 @@ void doContainerisation(DockeriseStageConfig dockeriseConfig, PipelineContext pi
         )
 
         def accessConfig = dockeriseConfig.accessConfig
-        if (accessConfig != null){
+        if (accessConfig != null) {
+            //step 3 - push images to repository
             def dockerImage = new DockerImage()
             dockerImage.name = dockeriseConfig.buildImageConfig.imageName
             dockerImage.tag = tagName
@@ -50,25 +55,28 @@ void doContainerisation(DockeriseStageConfig dockeriseConfig, PipelineContext pi
  * @return image. Has type org.jenkinsci.plugins.docker.workflow.Docker$Image
  */
 private def buildImage(BuildImageConfig buildImageConfig, PipelineContext pipelineContext) {
+    try {
+        def curStageContext = new DockeriseStageContext()
+        def buildImageStageContext = new BuildImageStageContext()
+        curStageContext.buildStageContext = buildImageStageContext
 
-    def curStageContext = new DockeriseStageContext()
-    def buildImageStageContext = new BuildImageStageContext()
-    curStageContext.buildStageContext = buildImageStageContext
+        curStageContext.buildStageContext
+        pipelineContext.dockeriseStageContext = curStageContext
 
-    curStageContext.buildStageContext
-    pipelineContext.dockeriseStageContext = curStageContext
+        def tagName = buildImageConfig.tagPrefix + "_" + env.BUILD_ID
+        buildImageStageContext.tag = tagName
+        buildImageStageContext.image = buildImageConfig.imageName
 
-    def tagName = buildImageConfig.tagPrefix + "_" + env.BUILD_ID
-    buildImageStageContext.tag = tagName
-    buildImageStageContext.image = buildImageConfig.imageName
-
-    def dockerFileDir = buildImageConfig.dockerFileDir
-    if (dockerFileDir == null || dockerFileDir.isEmpty()) {
-        def image = docker.build("$buildImageConfig.imageName:$tagName")
-        return image
-    } else {
-        def image = docker.build("$buildImageConfig.imageName:$tagName", dockerFileDir)
-        return image
+        def dockerFileDir = buildImageConfig.dockerFileDir
+        if (dockerFileDir == null || dockerFileDir.isEmpty()) {
+            def image = docker.build("$buildImageConfig.imageName:$tagName")
+            return image
+        } else {
+            def image = docker.build("$buildImageConfig.imageName:$tagName", dockerFileDir)
+            return image
+        }
+    } catch (Exception e) {
+        throw new DockerBuildImageException(e)
     }
 }
 
@@ -116,15 +124,19 @@ private void revertBuildImageStageChanges(Exception exception, BuildImageStageCo
  *
  */
 private void deleteImagesIfNumberOfStoredImagesHasExpired(int maxImagesToStore, String imageName, String imageTag, String imageTagPrefix) {
-    println("-----------BEGIN. Dockerise. Clean old images-----------------")
-    def command = getCommandToGetDockerImages(imageName, imageTag, imageTagPrefix)
-    def output = osUtils.runCommandReturningOutput(command)
-    List<DockerImage> images = parseDockerImagesDataFromOutputString(output, imageName)
+    try {
+        println("-----------BEGIN. Dockerise. Clean old images-----------------")
+        def command = getCommandToGetDockerImages(imageName, imageTag, imageTagPrefix)
+        def output = osUtils.runCommandReturningOutput(command)
+        List<DockerImage> images = parseDockerImagesDataFromOutputString(output, imageName)
 
-    if (!images.isEmpty()) {
-        deleteImageIfNeed(images.reverse(), maxImagesToStore)
+        if (!images.isEmpty()) {
+            deleteImageIfNeed(images.reverse(), maxImagesToStore)
+        }
+        println("-----------END. Dockerise. Clean old images-----------------")
+    } catch (Exception e) {
+        throw new DockerDeleteOldImagesException(e);
     }
-    println("-----------END. Dockerise. Clean old images-----------------")
 }
 
 /**
@@ -167,7 +179,7 @@ class DockerImage {
     String id
 
     @Override
-    public String toString() {
+    String toString() {
         return "DockerImage{" +
                 "name='" + name + '\'' +
                 ", tag='" + tag + '\'' +
@@ -177,7 +189,6 @@ class DockerImage {
 
     boolean isImageValid() {
         return (name != null && !name.isEmpty()) && (tag != null && !tag.isEmpty()) && (id != null && !id.isEmpty());
-
     }
 }
 /**
@@ -228,6 +239,7 @@ private List<DockerImage> parseDockerImagesDataFromOutputString(String outputStr
  * @param threshold Desired number of images to store
  */
 private void deleteImageIfNeed(List<DockerImage> images, int threshold) {
+
     if (images.size() >= threshold) {
         println("-----------BEGIN. Dockerise. Exec delete old images-----------------")
         int numberOfImagesToDelete = images.size() - threshold;
@@ -244,23 +256,15 @@ private void deleteImageIfNeed(List<DockerImage> images, int threshold) {
         }
         println("-----------END. Dockerise. Exec delete old images.-----------------")
     }
+
 }
 // Docker registry creation
 // https://habr.com/ru/post/320884/
 private void pushToDockerRegistry(AccessConfig accessConfig, DockerImage dockerImage) {
-   // withCredentials([usernamePassword(credentialsId: "'" + accessConfig.login + "'", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-        // available as an env variable, but will be masked if you try to print it out any which way
-        // note: single quotes prevent Groovy interpolation; expansion is by Bourne Shell, which is what you want
-        // also available as a Groovy variable
-
-        // or inside double quotes for string interpolation
-     //   echo "username is $USERNAME"
-
-    //}
-    //docker login tools.adidas-group.com:5000 -u username -p password
-    println("-----------BEGIN. Dockerise. Push image to registry-----------------")
-  //  withCredentials([usernamePassword(credentialsId: "'" + accessConfig.login + "'", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-  //      println(USERNAME)
+    try {
+        println("-----------BEGIN. Dockerise. Push image to registry-----------------")
+        //  withCredentials([usernamePassword(credentialsId: "'" + accessConfig.login + "'", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+        //      println(USERNAME)
         /*docker.withRegistry('registry.hub.docker.com/shop', "'" + USERNAME + "'") {
             //app.push("${env.BUILD_NUMBER}")
             //app.push("latest")
@@ -268,15 +272,22 @@ private void pushToDockerRegistry(AccessConfig accessConfig, DockerImage dockerI
         }*/
         //  println("-----------BEGIN. Dockerise. Push image to registry-----------------")
         //}
- //   }
+        //   }
 
 
-    withCredentials([usernamePassword(credentialsId: accessConfig.login, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-        echo USERNAME
-        echo "username is $USERNAME"
+        withCredentials([usernamePassword(credentialsId: accessConfig.login, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+            echo USERNAME
+            echo "username is $USERNAME"
+
+            docker.withRegistry('registry.hub.docker.com/shop', USERNAME) {
+                docker.image("$dockerImage.name:$dockerImage.tag").push()
+            }
+        }
+
+        println("-----------BEGIN. Dockerise. Push image to registry-----------------")
+    } catch (Exception e) {
+        throw new DockerImagePushException(e)
     }
-
-    println("-----------BEGIN. Dockerise. Push image to registry-----------------")
 }
 
 
