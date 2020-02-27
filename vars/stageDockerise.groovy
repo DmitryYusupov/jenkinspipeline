@@ -295,6 +295,7 @@ private void pushToDockerRegistry(AccessConfig accessConfig, DockerImage dockerI
 
         println("-----------BEGIN. Dockerise. Push image to registry-----------------")
     } catch (Exception e) {
+        e.printStackTrace()
         throw new DockerImagePushException(e)
     }
 }

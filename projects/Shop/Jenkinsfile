@@ -30,8 +30,9 @@ node {
         }
     } catch (Exception e) {
         //exceptionHandler.handleException(e, pipelineContext)
-        currentBuild.result = 'FAILURE'
         e.printStackTrace()
+        currentBuild.result = 'FAILURE'
+
     }
 
 }
