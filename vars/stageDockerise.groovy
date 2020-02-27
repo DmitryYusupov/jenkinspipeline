@@ -256,13 +256,15 @@ private boolean pushToDockerRegistry(AccessConfig accessConfig, String imageName
     //}
     //docker login tools.adidas-group.com:5000 -u username -p password
     println("-----------BEGIN. Dockerise. Push image to registry-----------------")
-    println(accessConfig.login)
-    docker.withRegistry('registry.hub.docker.com/shop', "'" + accessConfig.login + "'") {
-        //app.push("${env.BUILD_NUMBER}")
-        //app.push("latest")
-        docker.image("$imageName:$imageTag").push()
+    withCredentials([usernamePassword(credentialsId: "'" + accessConfig.login + "'", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+        println(USERNAME)
+        docker.withRegistry('registry.hub.docker.com/shop', "'" + USERNAME + "'") {
+            //app.push("${env.BUILD_NUMBER}")
+            //app.push("latest")
+            docker.image("$imageName:$imageTag").push()
+        }
+        println("-----------BEGIN. Dockerise. Push image to registry-----------------")
     }
-    println("-----------BEGIN. Dockerise. Push image to registry-----------------")
 }
 
 
