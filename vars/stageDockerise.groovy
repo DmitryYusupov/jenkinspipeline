@@ -151,7 +151,7 @@ private boolean deleteImage(DockerImage dockerImage) {
     }
     println("----END delete docker image <DockeriseStage> ----")
 
-    reutrn result;
+    return result;
 }
 
 /**
@@ -171,7 +171,7 @@ private void deleteImagesIfNumberOfStoredImagesHasExpired(int maxImagesToStore, 
         println("-----------BEGIN. Dockerise. Clean old images-----------------")
         def command = getCommandToGetDockerImages(imageName, imageTag, imageTagPrefix)
         def output = osUtils.runCommandReturningOutput(command)
-        println("AAAAAAAAAA $output")
+
         List<DockerImage> images = new ArrayList<>()
         boolean hasValidOutput = output != null && !output.isEmpty() && !output.toLowerCase().contains("no such image")
         if (hasValidOutput)
