@@ -259,8 +259,8 @@ private void pushToDockerRegistry(AccessConfig accessConfig, DockerImage dockerI
     //}
     //docker login tools.adidas-group.com:5000 -u username -p password
     println("-----------BEGIN. Dockerise. Push image to registry-----------------")
-    withCredentials([usernamePassword(credentialsId: "'" + accessConfig.login + "'", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-        println(USERNAME)
+  //  withCredentials([usernamePassword(credentialsId: "'" + accessConfig.login + "'", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+  //      println(USERNAME)
         /*docker.withRegistry('registry.hub.docker.com/shop', "'" + USERNAME + "'") {
             //app.push("${env.BUILD_NUMBER}")
             //app.push("latest")
@@ -268,7 +268,14 @@ private void pushToDockerRegistry(AccessConfig accessConfig, DockerImage dockerI
         }*/
         //  println("-----------BEGIN. Dockerise. Push image to registry-----------------")
         //}
+ //   }
+
+
+    withCredentials([usernamePassword(credentialsId: accessConfig.login, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+        echo USERNAME
+        echo "username is $USERNAME"
     }
+
     println("-----------BEGIN. Dockerise. Push image to registry-----------------")
 }
 
