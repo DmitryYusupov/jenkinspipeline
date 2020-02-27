@@ -44,12 +44,12 @@
             <configs>
                 <accessConfig>
                     <login>DOCKER_USER_DEV</login>
-                    <dokcerRegistryUrl>https://registry.hub.docker.com</dokcerRegistryUrl>
+                    <dockerRegistryUrl>https://registry.hub.docker.com</dockerRegistryUrl>
                 </accessConfig>
 
                 <buildImageConfig>
                     <dockerFileDir>./</dockerFileDir>
-                    <imageName>my-image</imageName>
+                    <imageName>usikovich/my-image</imageName>
                     <tagPrefix>env1</tagPrefix>
                 </buildImageConfig>
 
