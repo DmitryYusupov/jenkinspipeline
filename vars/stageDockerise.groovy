@@ -98,6 +98,18 @@ void handleException(PipelineContext pipelineContext) {
         ctx.exception.printStackTrace();
     })
 
+
+    def actionToDeleteImage = { PipelineContext ctx ->
+        if (ctx.dockeriseStageContext.buildStageContext != null) {
+            DockerImage dockerImage = new DockerImage()
+            def buildStageCtx = ctx.dockeriseStageContext.buildStageContext
+            dockerImage.name = buildStageCtx.image
+            dockerImage.tag = buildStageCtx.tag
+
+            deleteImage(dockerImage)
+        }
+    }
+
     if (exception instanceof DockerBuildImageException) {
         //print error
         revertActions.add({ ctx -> println("Error while try to build image!") })
@@ -105,24 +117,13 @@ void handleException(PipelineContext pipelineContext) {
         //print error
         revertActions.add({ ctx -> println("Error while try to push image to repo!") })
         //print delete created image
-        revertActions.add({ ctx ->
-            if (ctx.dockeriseStageContext.buildStageContext != null) {
-                revertBuildImageStageChanges(ctx.dockeriseStageContext.buildStageContext)
-            }
-        })
+        revertActions.add(actionToDeleteImage)
     } else if (exception instanceof DockerDeleteOldImagesException) {
-        println("33333333333333333333")
         //print error
         revertActions.add({ ctx -> println("Error while try to delete old images from local repo!") })
-        println("44444444444444444")
         //print delete created image
-        revertActions.add({ ctx ->
-            if (ctx.dockeriseStageContext.buildStageContext != null) {
-                revertBuildImageStageChanges(ctx.dockeriseStageContext.buildStageContext)
-            }
-        })
+        revertActions.add(actionToDeleteImage)
     }
-    println("SSSSSSSSSSSSSSSSSSSSSSSSS")
     revertActions.forEach { a -> a(pipelineContext) }
 }
 
@@ -132,16 +133,25 @@ void handleException(PipelineContext pipelineContext) {
  * @param exception
  * @param buildImageStageContext Context which stores information about docker stage
  */
-private void revertBuildImageStageChanges(BuildImageStageContext buildImageStageContext) {
-    println("----BEGIN ErrorHandling <DockeriseStage> ----")
+private boolean deleteImage(DockerImage dockerImage) {
+    boolean result = false;
+    println("----BEGIN delete docker image <DockeriseStage> ----")
     try {
-        def imageToDelete = buildImageStageContext.image + ":" + buildImageStageContext.tag
-        println("Try delete image '$imageToDelete'")
-        osUtils.runCommand("docker rmi $buildImageStageContext.image:$buildImageStageContext.tag")
+        if (dockerImage.hasImageNameAndTag()) {
+            def imageToDelete = dockerImage.name + ":" + dockerImage.tag
+            println("Try delete image '$imageToDelete'")
+            result = osUtils.runCommandReturningStatusAsBool("docker rmi -f $imageToDelete")
+        } else if (dockerImage.hasImageId()) {
+            result = osUtils.runCommandReturningStatusAsBool("docker rmi -f $dockerImage.id")
+        } else {
+            println("ERROR! Dont have enough data to delete image!")
+        }
     } catch (Exception e) {
         println("Error while revert changes !! " + e.getMessage())
     }
-    println("----END ErrorHandling <DockeriseStage> ----")
+    println("----END delete docker image <DockeriseStage> ----")
+
+    reutrn result;
 }
 
 /**
@@ -224,8 +234,16 @@ class DockerImage {
                 '}';
     }
 
-    boolean isImageValid() {
+    boolean isImageFull() {
         return (name != null && !name.isEmpty()) && (tag != null && !tag.isEmpty()) && (id != null && !id.isEmpty());
+    }
+
+    boolean hasImageId() {
+        return (id != null && !id.isEmpty())
+    }
+
+    boolean hasImageNameAndTag() {
+        return (name != null && !name.isEmpty()) && (tag != null && !tag.isEmpty());
     }
 }
 /**
@@ -283,7 +301,7 @@ private void deleteImageIfNeed(List<DockerImage> images, int threshold) {
             def image = images.get(i)
             def imageInfo = "$image.name:$image.tag $image.id"
             println("Try to delete image '$imageInfo'")
-            def isSuccessfullyDeleted = osUtils.runCommandReturningStatusAsBool("docker rmi -f $image.id")
+            def isSuccessfullyDeleted = deleteImage(image)
             if (isSuccessfullyDeleted) {
                 println("Image '$imageInfo' was successfully deleted")
             } else {
