@@ -109,10 +109,11 @@ void handleException(PipelineContext pipelineContext) {
         //print delete created image
         revertActions.add({ ctx ->
             if (ctx.dockeriseStageContext.buildStageContext != null) {
-                revertBuildImageStageChanges(pipelineContext.dockeriseStageContext.buildStageContext)
+                revertBuildImageStageChanges(ctx.dockeriseStageContext.buildStageContext)
             }
         })
     } else if (exception instanceof DockerDeleteOldImagesException) {
+        println("33333333333333333333")
         //print error
         revertActions.add({ ctx ->
             println("Error while try to delete old images from local repo!")
@@ -120,11 +121,11 @@ void handleException(PipelineContext pipelineContext) {
         //print delete created image
         revertActions.add({ ctx ->
             if (ctx.dockeriseStageContext.buildStageContext != null) {
-                revertBuildImageStageChanges(pipelineContext.dockeriseStageContext.buildStageContext)
+                revertBuildImageStageChanges(ctx.dockeriseStageContext.buildStageContext)
             }
         })
     }
-
+    println("SSSSSSSSSSSSSSSSSSSSSSSSS")
     revertActions.forEach { a -> a(pipelineContext) }
 }
 
