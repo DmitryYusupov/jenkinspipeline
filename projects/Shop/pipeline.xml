@@ -12,6 +12,7 @@
                 </gitconfig>
             </configs>
         </stage>
+
         <stage name="build">
             <label>Build</label>
             <commands>
@@ -23,6 +24,7 @@
                 <!--                </command>-->
             </commands>
         </stage>
+
         <stage name="integrationTests">
             <label>Integration test</label>
             <commands>
@@ -34,14 +36,15 @@
                 <!--                                </command>-->
             </commands>
         </stage>
+
         <stage name="dockerise">
             <label>Dockerise</label>
             <numberOfImagesToStore>3</numberOfImagesToStore>
-            <configs>
 
+            <configs>
                 <accessConfig>
                     <login>DOCKER_USER_DEV</login>
-                    <dokcerRegistryUrl>ssss</dokcerRegistryUrl>
+                    <dokcerRegistryUrl>https://registry.hub.docker.com</dokcerRegistryUrl>
                 </accessConfig>
 
                 <buildImageConfig>

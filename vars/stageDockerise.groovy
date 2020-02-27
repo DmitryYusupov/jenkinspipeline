@@ -284,7 +284,8 @@ private void pushToDockerRegistry(AccessConfig accessConfig, DockerImage dockerI
         //   }
 
 
-        docker.withRegistry('https://registry.hub.docker.com/shop', accessConfig.login) {
+        println("Try to push Image $dockerImage.name:$dockerImage.tag to $accessConfig.dockerRegistryUrl")
+        docker.withRegistry('https://registry.hub.docker.com', accessConfig.login) {
             docker.image("$dockerImage.name:$dockerImage.tag").push()
         }
 
