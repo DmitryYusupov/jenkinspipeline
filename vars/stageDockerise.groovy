@@ -28,12 +28,12 @@ void doContainerisation(DockeriseStageConfig dockeriseConfig, PipelineContext pi
 
         //step 2 - delete old images
         String tagName = dockeriseConfig.buildImageConfig.tagPrefix + "_" + env.BUILD_ID
-        deleteImagesIfNumberOfStoredImagesHasExpired(
+       /* deleteImagesIfNumberOfStoredImagesHasExpired(
                 dockeriseConfig.numberOfImagesToStore,
                 dockeriseConfig.buildImageConfig.imageName,
                 tagName,
                 dockeriseConfig.buildImageConfig.tagPrefix
-        )
+        )*/
 
         def accessConfig = dockeriseConfig.accessConfig
         if (accessConfig != null) {
