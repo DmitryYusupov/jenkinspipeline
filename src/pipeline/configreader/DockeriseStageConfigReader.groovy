@@ -51,7 +51,7 @@ final class DockeriseStageConfigReader {
     private static AccessConfig parseAccessConfig(Element element) {
         def result = new AccessConfig()
         result.login = getOnlyElementTextContent(element, "login")
-        result.dokcerRegistryUrl = getOnlyElementTextContent(element, "dockerRegistryUrl")
+        result.dockerRegistryUrl = getOnlyElementTextContent(element, "dockerRegistryUrl")
 
         return result
     }
