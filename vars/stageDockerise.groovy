@@ -28,12 +28,12 @@ void doContainerisation(DockeriseStageConfig dockeriseConfig, PipelineContext pi
 
         //step 2 - delete old images
         String tagName = dockeriseConfig.buildImageConfig.tagPrefix + "_" + env.BUILD_ID
-       /* deleteImagesIfNumberOfStoredImagesHasExpired(
+        deleteImagesIfNumberOfStoredImagesHasExpired(
                 dockeriseConfig.numberOfImagesToStore,
                 dockeriseConfig.buildImageConfig.imageName,
                 tagName,
                 dockeriseConfig.buildImageConfig.tagPrefix
-        )*/
+        )
 
         def accessConfig = dockeriseConfig.accessConfig
         if (accessConfig != null) {
@@ -137,7 +137,11 @@ private void deleteImagesIfNumberOfStoredImagesHasExpired(int maxImagesToStore, 
         println("-----------BEGIN. Dockerise. Clean old images-----------------")
         def command = getCommandToGetDockerImages(imageName, imageTag, imageTagPrefix)
         def output = osUtils.runCommandReturningOutput(command)
-        List<DockerImage> images = parseDockerImagesDataFromOutputString(output, imageName)
+
+        List<DockerImage> images = new ArrayList<>()
+        boolean hasValidOutput = output != null && !output.isEmpty() && !output.isBlank() && !output.toLowerCase().contains("no such image")
+        if (hasValidOutput)
+            images.addAll(parseDockerImagesDataFromOutputString(output, imageName))
 
         if (!images.isEmpty()) {
             deleteImageIfNeed(images.reverse(), maxImagesToStore)
