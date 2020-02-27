@@ -244,7 +244,7 @@ private void deleteImageIfNeed(List<DockerImage> images, int threshold) {
 }
 // Docker registry creation
 // https://habr.com/ru/post/320884/
-private boolean pushToDockerRegistry(AccessConfig accessConfig, String imageName, String imageTag) {
+private void pushToDockerRegistry(AccessConfig accessConfig, String imageName, String imageTag) {
    // withCredentials([usernamePassword(credentialsId: "'" + accessConfig.login + "'", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
         // available as an env variable, but will be masked if you try to print it out any which way
         // note: single quotes prevent Groovy interpolation; expansion is by Bourne Shell, which is what you want
@@ -256,15 +256,16 @@ private boolean pushToDockerRegistry(AccessConfig accessConfig, String imageName
     //}
     //docker login tools.adidas-group.com:5000 -u username -p password
     println("-----------BEGIN. Dockerise. Push image to registry-----------------")
-    withCredentials([usernamePassword(credentialsId: "'" + accessConfig.login + "'", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+    /*withCredentials([usernamePassword(credentialsId: "'" + accessConfig.login + "'", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
         println(USERNAME)
         /*docker.withRegistry('registry.hub.docker.com/shop', "'" + USERNAME + "'") {
             //app.push("${env.BUILD_NUMBER}")
             //app.push("latest")
             docker.image("$imageName:$imageTag").push()
         }*/
-        println("-----------BEGIN. Dockerise. Push image to registry-----------------")
-    }
+      //  println("-----------BEGIN. Dockerise. Push image to registry-----------------")
+    //}
+    println("-----------BEGIN. Dockerise. Push image to registry-----------------")
 }
 
 
