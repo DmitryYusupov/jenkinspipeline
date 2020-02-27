@@ -91,7 +91,7 @@ void handleException(PipelineContext pipelineContext) {
 
     def exception = pipelineContext.exception
 
-    List<Consumer<PipelineContext>> revertActions = new ArrayList<>();
+    def revertActions = new ArrayList<>();
     revertActions.add({ ctx ->
         println("Error on dockerise stage")
         ctx.exception.printStackTrace();
@@ -164,7 +164,7 @@ private void deleteImagesIfNumberOfStoredImagesHasExpired(int maxImagesToStore, 
         println("-----------BEGIN. Dockerise. Clean old images-----------------")
         def command = getCommandToGetDockerImages(imageName, imageTag, imageTagPrefix)
         def output = osUtils.runCommandReturningOutput(command)
-
+        println("AAAAAAAAAA $output")
         List<DockerImage> images = new ArrayList<>()
         boolean hasValidOutput = output != null && !output.isEmpty() && !output.toLowerCase().contains("no such image")
         if (hasValidOutput)

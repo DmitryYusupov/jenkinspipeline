@@ -7,6 +7,7 @@ import pipeline.config.PipelineConfig
 import pipeline.stages.Stage
 
 import java.nio.file.FileSystems
+import java.util.function.Consumer
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
@@ -22,7 +23,7 @@ class ConfigReader {
         /*println("assa")*/
       //  println()
 
-        def regExp = "(\\s+)(\\w+)(\\s+)(\\w+)"
+/*        def regExp = "(\\s+)(\\w+)(\\s+)(\\w+)"
         Pattern pattern = Pattern.compile(regExp)
         String s = "                                                    env1_27                    270f8030ea54        45 hours ago        291MB"
         Matcher matcher = pattern.matcher(s)
@@ -32,7 +33,13 @@ class ConfigReader {
             for(int i=1;i<=matcher.groupCount();i++){
                 println("'" + matcher.group(i) +"'")
             }
-        }
+        }*/
+
+     /*   def ss = new ArrayList<>();
+        ss.add({s -> println(s)});
+        ss.forEach{
+            c->c("AAAAAA")
+        }*/
     }
 
     static PipelineConfig parsePipelineConfig(String xmlFilePath) {
