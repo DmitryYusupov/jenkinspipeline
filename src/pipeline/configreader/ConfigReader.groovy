@@ -5,6 +5,12 @@ import org.w3c.dom.NodeList
 import pipeline.config.GlobalPipelineConfigs
 import pipeline.config.PipelineConfig
 import pipeline.stages.Stage
+import pipeline.stages.common.stage.PipelineContext
+import pipeline.stages.dockerise.context.BuildImageStageContext
+import pipeline.stages.dockerise.context.DockeriseStageContext
+import pipeline.stages.dockerise.exception.DockerBuildImageException
+import pipeline.stages.dockerise.exception.DockerDeleteOldImagesException
+import pipeline.stages.dockerise.exception.DockerImagePushException
 
 import java.nio.file.FileSystems
 import java.util.function.Consumer
@@ -40,8 +46,53 @@ class ConfigReader {
         ss.forEach{
             c->c("AAAAAA")
         }*/
+
+        PipelineContext pipelineContext = new PipelineContext();
+        pipelineContext.exception = new DockerDeleteOldImagesException("SS WW")
+        pipelineContext.dockeriseStageContext = new DockeriseStageContext();
+        pipelineContext.dockeriseStageContext.buildStageContext = new BuildImageStageContext();
+        handleException(pipelineContext)
     }
 
+
+    static void handleException(PipelineContext pipelineContext) {
+
+        def exception = pipelineContext.exception
+
+        def revertActions = new ArrayList<>()
+        revertActions.add({ ctx ->
+            println("Error on dockerise stage")
+            ctx.exception.printStackTrace();
+        })
+
+        if (exception instanceof DockerBuildImageException) {
+            //print error
+            revertActions.add({ ctx -> println("Error while try to build image!") })
+        } else if (exception instanceof DockerImagePushException) {
+            //print error
+            revertActions.add({ ctx -> println("Error while try to push image to repo!") })
+            //print delete created image
+            revertActions.add({ ctx ->
+                if (ctx.dockeriseStageContext.buildStageContext != null) {
+                   // revertBuildImageStageChanges(ctx.dockeriseStageContext.buildStageContext)
+                }
+            })
+        } else if (exception instanceof DockerDeleteOldImagesException) {
+            println("33333333333333333333")
+            //print error
+            revertActions.add({ ctx -> println("Error while try to delete old images from local repo!") })
+            println("44444444444444444")
+            //print delete created image
+            revertActions.add({ ctx ->
+                if (ctx.dockeriseStageContext.buildStageContext != null) {
+                    println "REVERT"
+                   // revertBuildImageStageChanges(ctx.dockeriseStageContext.buildStageContext)
+                }
+            })
+        }
+        println("SSSSSSSSSSSSSSSSSSSSSSSSS")
+        revertActions.forEach { a -> a(pipelineContext) }
+    }
     static PipelineConfig parsePipelineConfig(String xmlFilePath) {
         def result = new PipelineConfig()
 
