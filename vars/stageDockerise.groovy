@@ -1,3 +1,4 @@
+import com.cloudbees.groovy.cps.NonCPS
 import pipeline.stages.common.stage.PipelineContext
 import pipeline.stages.dockerise.config.AccessConfig
 import pipeline.stages.dockerise.config.BuildImageConfig
@@ -7,13 +8,7 @@ import pipeline.stages.dockerise.context.DockeriseStageContext
 import pipeline.stages.dockerise.exception.DockerBuildImageException
 import pipeline.stages.dockerise.exception.DockerDeleteOldImagesException
 import pipeline.stages.dockerise.exception.DockerImagePushException
-import utils.os.Os
-import utils.os.OsUtils
-import com.cloudbees.groovy.cps.NonCPS
-import utils.os.process.ProcessOutput
 
-import java.nio.file.Files
-import java.nio.file.Paths
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
