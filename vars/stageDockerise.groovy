@@ -201,9 +201,12 @@ private String getDockerImagesCommandOutput(String command) {
             osUtils.runCommandReturningOutput(command + " > " + file)
             return Files.readAllLines(Paths.get(file))
         } finally {
-            File f = new File(file);
+            File f = new File(file)
+            println("SS WW EE")
+            println(f.getAbsolutePath())
+            println("11 SS WW EE")
             if (f.isFile()) {
-                f.delete();
+            //    f.delete();
             }
         }
     }
