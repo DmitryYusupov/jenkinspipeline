@@ -182,10 +182,13 @@ private void deleteImagesIfNumberOfStoredImagesHasExpired(int maxImagesToStore, 
         println("333333333333333333333333333333 " + (output == null))
         boolean hasValidOutput = output != null && output != "null" && !output.isEmpty() && !output.toLowerCase().contains("no such image")
         println("4444444444444444444444444444444444444444 " + hasValidOutput)
-        if (hasValidOutput)
+        if (hasValidOutput) {
+            println("5555555555555555555555555555")
             images.addAll(parseDockerImagesDataFromOutputString(output, imageName))
+        }
 
         if (!images.isEmpty()) {
+            println("666666666666666666666666666")
             deleteImageIfNeed(images.reverse(), maxImagesToStore)
         }
         println("-----------END. Dockerise. Clean old images-----------------")
