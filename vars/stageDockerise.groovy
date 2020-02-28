@@ -181,7 +181,7 @@ private void deleteImagesIfNumberOfStoredImagesHasExpired(int maxImagesToStore, 
         List<DockerImage> images = new ArrayList<>()
         println("333333333333333333333333333333 " + (output == null))
         boolean hasValidOutput = output != null && output != "null" && !output.isEmpty() && !output.toLowerCase().contains("no such image")
-        println("4444444444444444444444444444444444444444")
+        println("4444444444444444444444444444444444444444 " + hasValidOutput)
         if (hasValidOutput)
             images.addAll(parseDockerImagesDataFromOutputString(output, imageName))
 
