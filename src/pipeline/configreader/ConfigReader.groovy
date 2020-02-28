@@ -20,17 +20,16 @@ class ConfigReader {
         /*println("assa")*/
       //  println()
 
-        /*CollectionUtils.isEmpty(null)
-        def tt = ProcessUtils.runProcessAndWaitForOutput("docker images --filter before=usikovich/my-image:env1_127")
-        println(tt.errorOutput)
-*/
 
-        String output = null;
-        boolean hasValidOutput = output != null && output != "null" && !output.isEmpty() && !output.toLowerCase().contains("no such image")
-        println();
+        def tt = ProcessUtils.runProcessAndWaitForOutput("docker images --filter before=usikovich/my-image:env1_148 | find \"usikovich/my-image\" | find \"env1\"")
+        println(tt.errorOutput)
+
+
+
     }
 
-
+    //docker images --filter before=usikovich/my-image:env1_148 | find "usikovich/my-image"| find "env1"
+    //docker images --filter before=usikovich/my-image:env1_125 | find "usikovich/my-image"  | find "env1"
     static PipelineConfig parsePipelineConfig(String xmlFilePath) {
         def result = new PipelineConfig()
 

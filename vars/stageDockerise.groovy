@@ -199,7 +199,7 @@ private String getDockerImagesCommandOutput(String command) {
     } else {
         println("WARNING: error while execute command '$command'")
         println("Try to fetch process output errors!")
-        ProcessOutput output = osUtils.runProcessAndWaitForOutput("docker images --filter before=usikovich/my-image:env1_147 | find \"usikovich/my-image\"| find \"env1\"")
+        ProcessOutput output = osUtils.runProcessAndWaitForOutput(command)
         println(output.errorOutput)
         println(output.output)
         println("--------------------------!")
@@ -290,13 +290,13 @@ private List<DockerImage> parseDockerImagesDataFromOutputString(String outputStr
         if (imageInfoStr.startsWith(imageName)) {
 
             def dockerImage = new DockerImage()
-            dockerImage.name = imageName
+            dockerImage.name = imageName.trim()
             imageInfoStr = imageInfoStr.replaceFirst(imageName, "")
             Matcher matcher = pattern.matcher(imageInfoStr)
 
             if (matcher.find() && matcher.groupCount() == 4) {
-                dockerImage.tag = matcher.group(2)
-                dockerImage.id = matcher.group(4)
+                dockerImage.tag = matcher.group(2).trim()
+                dockerImage.id = matcher.group(4).trim()
             }
 
             result.add(dockerImage)
