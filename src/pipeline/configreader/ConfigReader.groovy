@@ -5,6 +5,8 @@ import org.w3c.dom.NodeList
 import pipeline.config.GlobalPipelineConfigs
 import pipeline.config.PipelineConfig
 import pipeline.stages.Stage
+import utils.CollectionUtils
+import utils.os.process.ProcessUtils
 
 import java.util.concurrent.Executors
 
@@ -18,63 +20,12 @@ class ConfigReader {
         /*println("assa")*/
       //  println()
 
-        def tt = runProcessAndWaitForOutput("docker images --filter before=usikovich/my-image:env1_127")
+        CollectionUtils.isEmpty(null)
+        def tt = ProcessUtils.runProcessAndWaitForOutput("docker images --filter before=usikovich/my-image:env1_127")
         println(tt.errorOutput)
 
     }
 
-    static ProcessOutput runProcessAndWaitForOutput(String command) {
-        try {
-            ProcessOutput output = new ProcessOutput()
-
-            Process process = Runtime.getRuntime().exec(command)
-
-            def outputReader = new ProcessOutputReader(process.getInputStream())
-            new Thread(outputReader).start()
-
-            def errorReader = new ProcessOutputReader(process.getErrorStream())
-            new Thread(errorReader).start()
-
-            process.waitFor()
-            output.output = outputReader.output
-            output.errorOutput = errorReader.output
-
-            return output
-        } catch (Exception e) {
-            throw new RuntimeException(e)
-        }
-    }
-
-   static class ProcessOutputReader implements Runnable {
-        private InputStream inputStream
-        Exception error
-        List<String> output;
-
-        public ProcessOutputReader(InputStream inputStream) {
-            this.inputStream = inputStream;
-        }
-
-        @Override
-        void run() {
-            BufferedReader bufferedReader = null;
-            try {
-                bufferedReader = new BufferedReader(new InputStreamReader(inputStream))
-                output = bufferedReader.readLines()
-            } catch (Exception e) {
-                error = e
-            } finally {
-                if (bufferedReader != null) {
-                    bufferedReader.close()
-                }
-            }
-
-        }
-    }
-
-    static class ProcessOutput {
-        List<String> output
-        List<String> errorOutput
-    }
 
     static PipelineConfig parsePipelineConfig(String xmlFilePath) {
         def result = new PipelineConfig()
