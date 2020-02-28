@@ -45,7 +45,7 @@ void doContainerisation(DockeriseStageConfig dockeriseConfig, PipelineContext pi
             def dockerImage = new DockerImage()
             dockerImage.name = dockeriseConfig.buildImageConfig.imageName
             dockerImage.tag = tagName
-          //  pushToDockerRegistry(accessConfig, dockerImage)
+            pushToDockerRegistry(accessConfig, dockerImage)
         }
     }
     println("============================END $dockeriseConfig.label ============================")
@@ -184,7 +184,7 @@ private void deleteImagesIfNumberOfStoredImagesHasExpired(int maxImagesToStore, 
         }
 
         if (!images.isEmpty()) {
-//            deleteImageIfNeed(images.reverse(), maxImagesToStore)
+            deleteImageIfNeed(images.reverse(), maxImagesToStore)
         }
         println("-----------END. Dockerise. Clean old images-----------------")
     } catch (Exception e) {
@@ -193,17 +193,11 @@ private void deleteImagesIfNumberOfStoredImagesHasExpired(int maxImagesToStore, 
 }
 
 private String getDockerImagesCommandOutput(String command) {
-    def success = osUtils.runCommandReturningStatusAsBool("docker images --filter before=usikovich/my-image:env1_150 | find \"usikovich/my-image\" | find \"env1\"")
+    def success = osUtils.runCommandReturningOutput(command)
     if (success) {
-        return osUtils.runCommandReturningOutput("docker images --filter before=usikovich/my-image:env1_150 | find \"usikovich/my-image\" | find \"env1\"")
+        return osUtils.runCommandReturningOutput(command)
     } else {
-        println("WARNING: error while execute command '$command'")
-        println("Try to fetch process output errors!")
-        ProcessOutput output = osUtils.runProcessAndWaitForOutput("docker images --filter before=usikovich/my-image:env1_150 | find \"usikovich/my-image\" | find \"env1\"")
-        println(output.errorOutput)
-        println(output.output)
-        println("--------------------------!")
-        return output.errorOutputAsString()
+        throw new DockerDeleteOldImagesException("Error while exec command $command");
     }
 }
 
@@ -213,6 +207,8 @@ private String getDockerImagesCommandOutput(String command) {
  * See on possible image info:
  * Full name: my-image:env_dev_1 (name: my-image, tag: env_dev_1, tag_prefix: env_dev_)
  *
+ * def command = "docker images --filter before=$imageName:$imageTag | find \"" + imageName + "\"";
+ *
  * @param imageName Image name
  * @param imageTag Image tag
  * @param imageTagPrefix Image tag prefix
@@ -220,26 +216,9 @@ private String getDockerImagesCommandOutput(String command) {
  * @return command which will return images with defined image name and tag
  */
 private String getCommandToGetDockerImages(String imageName, String imageTag, String imageTagPrefix) {
-    switch (OsUtils.getOS()) {
-        case Os.WINDOWS:
-            def command = "docker images --filter before=$imageName:$imageTag | find \"" + imageName + "\"";
-            if (imageTagPrefix != null && !imageTagPrefix.isEmpty()) {
-                command = command + "| find \"" + imageTagPrefix + "\"";
-            }
-            return command
-
-        case Os.UNIX:
-            def command = "docker images --filter before=$imageName:$imageTag | grep \"" + imageName + "\"";
-            if (imageTagPrefix != null && !imageTagPrefix.isEmpty()) {
-                command = command + "| grep \"" + imageTagPrefix + "\"";
-            }
-            return command
-
-        default:
-            throw new RuntimeException("Impossible to get dockerImages command. Unknown OS!")
-    }
+    def command = "docker images $imageName:$imageTagPrefix* --filter before=$imageName:$imageTag";
+    return command
 }
-
 
 class DockerImage {
     String name

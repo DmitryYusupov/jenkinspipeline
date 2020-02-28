@@ -59,6 +59,6 @@ def runCommand(String command) {
     }
 }
 
-ProcessOutput runProcessAndWaitForOutput(String command) {
+def runProcessAndWaitForOutput(String command) {
     return ProcessUtils.runProcessAndWaitForOutput(command)
 }

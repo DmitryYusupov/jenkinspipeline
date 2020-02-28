@@ -21,8 +21,9 @@ class ConfigReader {
       //  println()
 
 
-        def tt = ProcessUtils.runProcessAndWaitForOutput("docker images --filter before=usikovich/my-image:env1_148 | find \"usikovich/my-image\" | find \"env1\"")
+        def tt = ProcessUtils.runProcessAndWaitForOutput("docker images usikovich/my-image --filter before=usikovich/my-image:env1_154")
         println(tt.errorOutput)
+        println(tt.output)
 
 
 
