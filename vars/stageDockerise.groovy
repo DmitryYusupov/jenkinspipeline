@@ -198,9 +198,10 @@ private String getDockerImagesCommandOutput(String command) {
     if (success) {
         return osUtils.runCommandReturningOutput(command)
     } else {
-        println("WARNING: error while execute command $command")
+        println("WARNING: error while execute command '$command'")
         println("Try to fetch process output errors!")
         ProcessOutput output = osUtils.runProcessAndWaitForOutput(command)
+        println(output.errorOutput)
         return output.errorOutputAsString()
     }
 }
