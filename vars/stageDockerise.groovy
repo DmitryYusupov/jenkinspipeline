@@ -184,7 +184,7 @@ private void deleteImagesIfNumberOfStoredImagesHasExpired(int maxImagesToStore, 
         }
 
         if (!images.isEmpty()) {
-            deleteImageIfNeed(images.reverse(), maxImagesToStore)
+//            deleteImageIfNeed(images.reverse(), maxImagesToStore)
         }
         println("-----------END. Dockerise. Clean old images-----------------")
     } catch (Exception e) {
@@ -199,7 +199,7 @@ private String getDockerImagesCommandOutput(String command) {
     } else {
         println("WARNING: error while execute command '$command'")
         println("Try to fetch process output errors!")
-        ProcessOutput output = osUtils.runProcessAndWaitForOutput("docker images --filter before=usikovich/my-image:env1_150   | find \"usikovich/my-image\"  | find \"env1\" ")
+        ProcessOutput output = osUtils.runProcessAndWaitForOutput("docker images --filter before=usikovich/my-image:env1_150 | find \"usikovich/my-image\" | find \"env1\"")
         println(output.errorOutput)
         println(output.output)
         println("--------------------------!")
