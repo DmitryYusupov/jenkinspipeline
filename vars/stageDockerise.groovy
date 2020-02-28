@@ -45,7 +45,7 @@ void doContainerisation(DockeriseStageConfig dockeriseConfig, PipelineContext pi
             def dockerImage = new DockerImage()
             dockerImage.name = dockeriseConfig.buildImageConfig.imageName
             dockerImage.tag = tagName
-            pushToDockerRegistry(accessConfig, dockerImage)
+          //  pushToDockerRegistry(accessConfig, dockerImage)
         }
     }
     println("============================END $dockeriseConfig.label ============================")
@@ -178,17 +178,14 @@ private void deleteImagesIfNumberOfStoredImagesHasExpired(int maxImagesToStore, 
         println("11111111111111111111111111111111")
         println(" Output '$output'")
         println("222222222222222222222222222222")
+
         List<DockerImage> images = new ArrayList<>()
-        println("333333333333333333333333333333 " + (output == null))
         boolean hasValidOutput = output != null && output != "null" && !output.isEmpty() && !output.toLowerCase().contains("no such image")
-        println("4444444444444444444444444444444444444444 " + hasValidOutput)
         if (hasValidOutput) {
-            println("5555555555555555555555555555")
             images.addAll(parseDockerImagesDataFromOutputString(output, imageName))
         }
 
         if (!images.isEmpty()) {
-            println("666666666666666666666666666")
             deleteImageIfNeed(images.reverse(), maxImagesToStore)
         }
         println("-----------END. Dockerise. Clean old images-----------------")
