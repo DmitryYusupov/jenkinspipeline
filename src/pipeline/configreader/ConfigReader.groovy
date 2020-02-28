@@ -20,10 +20,14 @@ class ConfigReader {
         /*println("assa")*/
       //  println()
 
-        CollectionUtils.isEmpty(null)
+        /*CollectionUtils.isEmpty(null)
         def tt = ProcessUtils.runProcessAndWaitForOutput("docker images --filter before=usikovich/my-image:env1_127")
         println(tt.errorOutput)
+*/
 
+        String output = null;
+        boolean hasValidOutput = output != null && output != "null" && !output.isEmpty() && !output.toLowerCase().contains("no such image")
+        println();
     }
 
 
