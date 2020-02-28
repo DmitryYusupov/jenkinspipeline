@@ -16,7 +16,7 @@ class ProcessOutput {
 
 
     String errorOutputAsString() {
-        if (CollectionUtils.is(errorOutput)) {
+        if (CollectionUtils.isNotEmpty(errorOutput)) {
             return outputAsSingleString(errorOutput)
         }
 
