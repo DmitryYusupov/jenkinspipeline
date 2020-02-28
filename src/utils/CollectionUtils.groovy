@@ -6,8 +6,6 @@ final class CollectionUtils {
     }
 
     static boolean isEmpty(Collection<?> c) {
-        println("AAA " + (c == null))
-        println("BBB " + (c == null || c.isEmpty()))
         return c == null || c.isEmpty()
     }
 

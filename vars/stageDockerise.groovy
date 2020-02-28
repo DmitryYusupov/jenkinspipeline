@@ -206,6 +206,8 @@ private String getDockerImagesCommandOutput(String command) {
         println("Try to fetch process output errors!")
         ProcessOutput output = osUtils.runProcessAndWaitForOutput(command)
         println(output.errorOutput)
+        println(output.output)
+        println("--------------------------!")
         return output.errorOutputAsString()
     }
 }
