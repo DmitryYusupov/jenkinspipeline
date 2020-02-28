@@ -11,6 +11,8 @@ import utils.os.Os
 import utils.os.OsUtils
 import com.cloudbees.groovy.cps.NonCPS
 
+import java.nio.file.Files
+import java.nio.file.Paths
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
@@ -172,7 +174,7 @@ private void deleteImagesIfNumberOfStoredImagesHasExpired(int maxImagesToStore, 
         println("Before command")
         def command = getCommandToGetDockerImages(imageName, imageTag, imageTagPrefix)
         println("Command '$command'")
-        def output = osUtils.runCommandReturningOutput(command)
+        def output = getDockerImagesCommandOutput(command)
         println(" Output '$output'")
         List<DockerImage> images = new ArrayList<>()
         boolean hasValidOutput = output != null && !output.isEmpty() && !output.toLowerCase().contains("no such image")
@@ -185,6 +187,25 @@ private void deleteImagesIfNumberOfStoredImagesHasExpired(int maxImagesToStore, 
         println("-----------END. Dockerise. Clean old images-----------------")
     } catch (Exception e) {
         throw new DockerDeleteOldImagesException(e);
+    }
+}
+
+private String getDockerImagesCommandOutput(String command) {
+    def success = osUtils.runCommandReturningStatusAsBool(command)
+    if (success) {
+        return osUtils.runCommandReturningOutput(command);
+    } else {
+
+        def file = "TempOutput_" + env.BUILD_ID
+        try {
+            osUtils.runCommandReturningOutput(command + " > " + file)
+            return Files.readAllLines(Paths.get(file))
+        } finally {
+            File f = new File(file);
+            if (f.isFile()) {
+                f.delete();
+            }
+        }
     }
 }
 
