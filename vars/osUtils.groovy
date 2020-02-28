@@ -1,5 +1,7 @@
 import utils.os.Os
 import utils.os.OsUtils
+import utils.os.process.ProcessOutput
+import utils.os.process.ProcessUtils
 
 String runCommandReturningOutput(String command) {
     switch (OsUtils.getOS()) {
@@ -57,4 +59,6 @@ def runCommand(String command) {
     }
 }
 
-
+ProcessOutput runProcessAndWaitForOutput(String command) {
+    return ProcessUtils.runProcessAndWaitForOutput(command)
+}

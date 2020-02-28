@@ -6,6 +6,8 @@ import pipeline.config.GlobalPipelineConfigs
 import pipeline.config.PipelineConfig
 import pipeline.stages.Stage
 
+import java.util.concurrent.Executors
+
 import static utils.XmlDomUtils.*
 
 class ConfigReader {
@@ -16,23 +18,62 @@ class ConfigReader {
         /*println("assa")*/
       //  println()
 
-/*        def regExp = "(\\s+)(\\w+)(\\s+)(\\w+)"
-        Pattern pattern = Pattern.compile(regExp)
-        String s = "                                                    env1_27                    270f8030ea54        45 hours ago        291MB"
-        Matcher matcher = pattern.matcher(s)
+        def tt = runProcessAndWaitForOutput("docker images --filter before=usikovich/my-image:env1_127")
+        println(tt.errorOutput)
 
+    }
 
-        if (matcher.find() && matcher.groupCount() == 4) {
-            for(int i=1;i<=matcher.groupCount();i++){
-                println("'" + matcher.group(i) +"'")
+    static ProcessOutput runProcessAndWaitForOutput(String command) {
+        try {
+            ProcessOutput output = new ProcessOutput()
+
+            Process process = Runtime.getRuntime().exec(command)
+
+            def outputReader = new ProcessOutputReader(process.getInputStream())
+            new Thread(outputReader).start()
+
+            def errorReader = new ProcessOutputReader(process.getErrorStream())
+            new Thread(errorReader).start()
+
+            process.waitFor()
+            output.output = outputReader.output
+            output.errorOutput = errorReader.output
+
+            return output
+        } catch (Exception e) {
+            throw new RuntimeException(e)
+        }
+    }
+
+   static class ProcessOutputReader implements Runnable {
+        private InputStream inputStream
+        Exception error
+        List<String> output;
+
+        public ProcessOutputReader(InputStream inputStream) {
+            this.inputStream = inputStream;
+        }
+
+        @Override
+        void run() {
+            BufferedReader bufferedReader = null;
+            try {
+                bufferedReader = new BufferedReader(new InputStreamReader(inputStream))
+                output = bufferedReader.readLines()
+            } catch (Exception e) {
+                error = e
+            } finally {
+                if (bufferedReader != null) {
+                    bufferedReader.close()
+                }
             }
-        }*/
 
-     /*   def ss = new ArrayList<>();
-        ss.add({s -> println(s)});
-        ss.forEach{
-            c->c("AAAAAA")
-        }*/
+        }
+    }
+
+    static class ProcessOutput {
+        List<String> output
+        List<String> errorOutput
     }
 
     static PipelineConfig parsePipelineConfig(String xmlFilePath) {

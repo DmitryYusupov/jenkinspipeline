@@ -10,6 +10,7 @@ import pipeline.stages.dockerise.exception.DockerImagePushException
 import utils.os.Os
 import utils.os.OsUtils
 import com.cloudbees.groovy.cps.NonCPS
+import utils.os.process.ProcessOutput
 
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -171,7 +172,6 @@ private boolean deleteImage(DockerImage dockerImage) {
 private void deleteImagesIfNumberOfStoredImagesHasExpired(int maxImagesToStore, String imageName, String imageTag, String imageTagPrefix) {
     try {
         println("-----------BEGIN. Dockerise. Clean old images-----------------")
-        println("Before command")
         def command = getCommandToGetDockerImages(imageName, imageTag, imageTagPrefix)
         println("Command '$command'")
         def output = getDockerImagesCommandOutput(command)
@@ -193,22 +193,10 @@ private void deleteImagesIfNumberOfStoredImagesHasExpired(int maxImagesToStore, 
 private String getDockerImagesCommandOutput(String command) {
     def success = osUtils.runCommandReturningStatusAsBool(command)
     if (success) {
-        return osUtils.runCommandReturningOutput(command);
+        return osUtils.runCommandReturningOutput(command)
     } else {
-
-        def file = "TempOutput_" + env.BUILD_ID
-        try {
-            osUtils.runCommandReturningOutput(command + " > " + file)
-            return Files.readAllLines(Paths.get(file))
-        } finally {
-            File f = new File(file)
-            println("SS WW EE")
-            println(f.getAbsolutePath())
-            println("11 SS WW EE")
-            if (f.isFile()) {
-            //    f.delete();
-            }
-        }
+        ProcessOutput output =  osUtils.runProcessAndWaitForOutput(command)
+        return output.errorOutputAsString()
     }
 }
 
