@@ -310,7 +310,7 @@ private List<DockerImage> parseDockerImagesDataFromOutputString(String outputStr
 
     println("xxxxxxxxxxxxxxxxxxxxx")
     for (DockerImage img: result){
-        println(img)
+        println(img.toString())
     }
     println("xxxxxxxxxxxxxxxxxxxxx")
 
