@@ -175,9 +175,7 @@ private void deleteImagesIfNumberOfStoredImagesHasExpired(int maxImagesToStore, 
         def command = getCommandToGetDockerImages(imageName, imageTag, imageTagPrefix)
         println("Command '$command'")
         def output = getDockerImagesCommandOutput(command)
-        println("11111111111111111111111111111111")
         println(" Output '$output'")
-        println("222222222222222222222222222222")
 
         List<DockerImage> images = new ArrayList<>()
         boolean hasValidOutput = output != null && output != "null" && !output.isEmpty() && !output.toLowerCase().contains("no such image")
@@ -201,7 +199,7 @@ private String getDockerImagesCommandOutput(String command) {
     } else {
         println("WARNING: error while execute command '$command'")
         println("Try to fetch process output errors!")
-        ProcessOutput output = osUtils.runProcessAndWaitForOutput(command)
+        ProcessOutput output = osUtils.runProcessAndWaitForOutput("docker images --filter before=usikovich/my-image:env1_147 | find \"usikovich/my-image\"| find \"env1\"")
         println(output.errorOutput)
         println(output.output)
         println("--------------------------!")
