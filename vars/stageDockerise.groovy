@@ -140,12 +140,12 @@ private boolean deleteImage(DockerImage dockerImage) {
     boolean result = false;
     println("----BEGIN delete docker image <DockeriseStage> ----")
     try {
-        if (dockerImage.hasImageNameAndTag()) {
+        if (dockerImage.hasImageId()) {
+            result = osUtils.runCommandReturningStatusAsBool("docker rmi -f $dockerImage.id")
+        } else if (dockerImage.hasImageNameAndTag()) {
             def imageToDelete = dockerImage.name + ":" + dockerImage.tag
             println("Try delete image '$imageToDelete'")
             result = osUtils.runCommandReturningStatusAsBool("docker rmi -f $imageToDelete")
-        } else if (dockerImage.hasImageId()) {
-            result = osUtils.runCommandReturningStatusAsBool("docker rmi -f $dockerImage.id")
         } else {
             println("ERROR! Dont have enough data to delete image!")
         }
@@ -307,12 +307,6 @@ private List<DockerImage> parseDockerImagesDataFromOutputString(String outputStr
             result.add(dockerImage)
         }
     }
-
-    println("xxxxxxxxxxxxxxxxxxxxx")
-    for (DockerImage img: result){
-        println(img.toString())
-    }
-    println("xxxxxxxxxxxxxxxxxxxxx")
 
     return result
 }
