@@ -175,8 +175,11 @@ private void deleteImagesIfNumberOfStoredImagesHasExpired(int maxImagesToStore, 
         def command = getCommandToGetDockerImages(imageName, imageTag, imageTagPrefix)
         println("Command '$command'")
         def output = getDockerImagesCommandOutput(command)
+        println("11111111111111111111111111111111")
         println(" Output '$output'")
+        println("222222222222222222222222222222")
         List<DockerImage> images = new ArrayList<>()
+        println("333333333333333333333333333333")
         boolean hasValidOutput = output != null &&
                 output != "null"
                 !output.isEmpty() &&
